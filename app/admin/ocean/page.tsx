@@ -32,6 +32,7 @@ import {
   Waves,
   Wind,
 } from "lucide-react";
+import { useTranslation } from "@/lib/hooks/use-translation";
 
 interface MetricCardProps {
   title: string;
@@ -41,6 +42,7 @@ interface MetricCardProps {
 }
 
 export default function AdminOceanPage() {
+  const { t, locale } = useTranslation();
   const [readings, setReadings] = useState<OceanReading[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +58,7 @@ export default function AdminOceanPage() {
   };
 
   useEffect(() => {
-    loadReadings();
+    void loadReadings();
   }, []);
 
   const latest = readings[0] ?? null;
@@ -91,48 +93,44 @@ export default function AdminOceanPage() {
     };
   }, [readings]);
 
+  const dateLocale = locale === "fa" ? "fa-IR" : "en-US";
+
   return (
     <DashboardLayout sidebarItems={adminNavItems}>
       <div className="space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold">آب وهوا &amp; Sea State</h1>
-            <p className="text-muted-foreground">
-              Monitor real-time meteorological and oceanographic conditions for
-              the maritime control room.
-            </p>
+            <h1 className="text-3xl font-bold">{t("oceanPage.title")}</h1>
+            <p className="text-muted-foreground">{t("oceanPage.description")}</p>
           </div>
           <Button variant="outline" onClick={loadReadings} disabled={loading}>
             <RefreshCcw className="ml-2 h-4 w-4" />
-            Refresh data
+            {t("oceanPage.refresh")}
           </Button>
         </div>
 
         {loading ? (
-          <div className="py-12 text-center text-muted-foreground">
-            Loading ocean observations…
-          </div>
+          <div className="py-12 text-center text-muted-foreground">{t("oceanPage.loading")}</div>
         ) : readings.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center text-muted-foreground">
-              No observations available yet. Connect a sensor feed to begin
-              collecting data.
+              {t("oceanPage.empty")}
             </CardContent>
           </Card>
         ) : (
           <Tabs defaultValue="overview">
             <TabsList className="grid w-full max-w-md grid-cols-2">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="history">History</TabsTrigger>
+              <TabsTrigger value="overview">{t("oceanPage.tabs.overview")}</TabsTrigger>
+              <TabsTrigger value="history">{t("oceanPage.tabs.history")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-6 space-y-6">
               {latest && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Latest observation</CardTitle>
+                    <CardTitle>{t("oceanPage.latestObservation.title")}</CardTitle>
                     <CardDescription>
-                      {new Date(latest.timestamp).toLocaleString("fa-IR")} ·{" "}
+                      {new Date(latest.timestamp).toLocaleString(dateLocale)} ·{" "}
                       {latest.position.lat.toFixed(3)} /{" "}
                       {latest.position.lng.toFixed(3)}
                     </CardDescription>
@@ -140,33 +138,35 @@ export default function AdminOceanPage() {
                   <CardContent>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                       <MetricCard
-                        title="Wave height"
+                        title={t("oceanPage.metrics.waveHeight")}
                         value={`${latest.wave.height.toFixed(1)} m`}
-                        helper={`Period ${
-                          latest.wave.period?.toFixed(0) ?? "—"
-                        } s`}
+                        helper={t("oceanPage.metrics.wavePeriod", {
+                          seconds: latest.wave.period?.toFixed(0) ?? "—",
+                        })}
                         icon={<Waves className="h-5 w-5 text-chart-1" />}
                       />
                       <MetricCard
-                        title="Wind"
+                        title={t("oceanPage.metrics.wind")}
                         value={`${latest.wind.speed.toFixed(1)} kt`}
-                        helper={`Direction ${latest.wind.direction.toFixed(
-                          0
-                        )}°`}
+                        helper={t("oceanPage.metrics.windDirection", {
+                          degrees: latest.wind.direction.toFixed(0),
+                        })}
                         icon={<Wind className="h-5 w-5 text-chart-2" />}
                       />
                       <MetricCard
-                        title="Sea temperature"
+                        title={t("oceanPage.metrics.seaTemperature")}
                         value={`${latest.temperature.sea.toFixed(1)}°C`}
-                        helper={`Air ${latest.temperature.air.toFixed(1)}°C`}
+                        helper={t("oceanPage.metrics.seaAirHelper", {
+                          temperature: latest.temperature.air.toFixed(1),
+                        })}
                         icon={<Thermometer className="h-5 w-5 text-chart-3" />}
                       />
                       <MetricCard
-                        title="Current"
+                        title={t("oceanPage.metrics.current")}
                         value={`${latest.current.speed.toFixed(1)} kt`}
-                        helper={`Direction ${latest.current.direction.toFixed(
-                          0
-                        )}°`}
+                        helper={t("oceanPage.metrics.currentDirection", {
+                          degrees: latest.current.direction.toFixed(0),
+                        })}
                         icon={<Droplet className="h-5 w-5 text-chart-4" />}
                       />
                     </div>
@@ -178,7 +178,7 @@ export default function AdminOceanPage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average wave height
+                      {t("oceanPage.metrics.aggregates.waveTitle")}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -186,14 +186,14 @@ export default function AdminOceanPage() {
                       {aggregates.averageWave.toFixed(1)} m
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Calculated from the latest observations
+                      {t("oceanPage.metrics.aggregates.waveDescription")}
                     </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average wind speed
+                      {t("oceanPage.metrics.aggregates.windTitle")}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -201,14 +201,14 @@ export default function AdminOceanPage() {
                       {aggregates.averageWind.toFixed(1)} kt
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Reflects surface wind across the region
+                      {t("oceanPage.metrics.aggregates.windDescription")}
                     </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average sea temperature
+                      {t("oceanPage.metrics.aggregates.seaTempTitle")}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -216,14 +216,14 @@ export default function AdminOceanPage() {
                       {aggregates.averageSeaTemp.toFixed(1)}°C
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Near-surface water temperature
+                      {t("oceanPage.metrics.aggregates.seaTempDescription")}
                     </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average air temperature
+                      {t("oceanPage.metrics.aggregates.airTempTitle")}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -231,7 +231,7 @@ export default function AdminOceanPage() {
                       {aggregates.averageAirTemp.toFixed(1)}°C
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Ambient temperature at the observation sites
+                      {t("oceanPage.metrics.aggregates.airTempDescription")}
                     </p>
                   </CardContent>
                 </Card>
@@ -241,30 +241,26 @@ export default function AdminOceanPage() {
             <TabsContent value="history" className="mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Observation log</CardTitle>
-                  <CardDescription>
-                    15 most recent meteorological and oceanographic records
-                  </CardDescription>
+                  <CardTitle>{t("oceanPage.history.title")}</CardTitle>
+                  <CardDescription>{t("oceanPage.history.description")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Timestamp</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Wave height</TableHead>
-                        <TableHead>Wind speed</TableHead>
-                        <TableHead>Sea temperature</TableHead>
-                        <TableHead>Beaufort</TableHead>
+                        <TableHead>{t("oceanPage.history.columns.timestamp")}</TableHead>
+                        <TableHead>{t("oceanPage.history.columns.location")}</TableHead>
+                        <TableHead>{t("oceanPage.history.columns.waveHeight")}</TableHead>
+                        <TableHead>{t("oceanPage.history.columns.windSpeed")}</TableHead>
+                        <TableHead>{t("oceanPage.history.columns.seaTemperature")}</TableHead>
+                        <TableHead>{t("oceanPage.history.columns.beaufort")}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {readings.slice(0, 15).map((reading) => (
                         <TableRow key={reading.id}>
                           <TableCell>
-                            {new Date(reading.timestamp).toLocaleString(
-                              "fa-IR"
-                            )}
+                            {new Date(reading.timestamp).toLocaleString(dateLocale)}
                           </TableCell>
                           <TableCell>
                             {reading.position.lat.toFixed(3)} /{" "}

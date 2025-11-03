@@ -7,7 +7,7 @@ const POLICIES_KEY = "maritime_policies"
 const seedRegions: Region[] = [
   {
     id: "r1",
-    name: "بندر عباس",
+    name: "بندر عباس | Bandar Abbas",
     type: "port",
     geometry: {
       type: "Polygon",
@@ -21,12 +21,12 @@ const seedRegions: Region[] = [
         ],
       ],
     },
-    description: "منطقه بندری بندر عباس",
+    description: "منطقه بندری بندر عباس | Bandar Abbas port zone",
     createdAt: new Date().toISOString(),
   },
   {
     id: "r2",
-    name: "منطقه حفاظت شده",
+    name: "منطقه حفاظت شده | Protected area",
     type: "conservation",
     geometry: {
       type: "Polygon",
@@ -40,7 +40,7 @@ const seedRegions: Region[] = [
         ],
       ],
     },
-    description: "منطقه حفاظت شده دریایی",
+    description: "منطقه حفاظت شده دریایی | Marine conservation zone",
     createdAt: new Date().toISOString(),
   },
 ]
@@ -49,8 +49,8 @@ const seedPolicies: Policy[] = [
   {
     id: "p1",
     regionId: "r1",
-    title: "قوانین ورود به بندر",
-    content: "کلیه شناورها باید قبل از ورود به بندر، اطلاعات خود را به مرکز کنترل ترافیک اعلام نمایند.",
+    title: "قوانین ورود به بندر | Port entry regulations",
+    content: "کلیه شناورها باید قبل از ورود به بندر، اطلاعات خود را به مرکز کنترل ترافیک اعلام نمایند. | All vessels must report details to traffic control prior to entry.",
     category: "navigation",
     effectiveDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),
@@ -58,8 +58,8 @@ const seedPolicies: Policy[] = [
   {
     id: "p2",
     regionId: "r2",
-    title: "محدودیت‌های زیست‌محیطی",
-    content: "در این منطقه، تخلیه هرگونه مواد زائد و آلاینده ممنوع است.",
+    title: "محدودیت‌های زیست‌محیطی | Environmental restrictions",
+    content: "در این منطقه، تخلیه هرگونه مواد زائد و آلاینده ممنوع است. | Discharge of waste or pollutants is prohibited within this zone.",
     category: "environmental",
     effectiveDate: new Date().toISOString(),
     createdAt: new Date().toISOString(),

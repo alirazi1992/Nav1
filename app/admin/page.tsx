@@ -12,7 +12,7 @@ import { adminNavItems } from "@/lib/config/navigation"
 import type { Vessel, Alert } from "@/lib/types"
 
 export default function AdminDashboard() {
-  const { t } = useTranslation()
+  const { t, localize, locale } = useTranslation()
   const [vessels, setVessels] = useState<Vessel[]>([])
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [loading, setLoading] = useState(true)
@@ -36,39 +36,41 @@ export default function AdminDashboard() {
   const activeVessels = vessels.filter((v) => v.status === "active").length
   const pendingVessels = vessels.filter((v) => v.status === "pending").length
 
+  const dateLocale = locale === "fa" ? "fa-IR" : "en-US"
+
   return (
     <DashboardLayout sidebarItems={adminNavItems}>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">{t("dashboard.welcome")}</h1>
-          <p className="text-muted-foreground">نمای کلی سامانه نظارت دریایی</p>
+          <p className="text-muted-foreground">{t("adminDashboard.description")}</p>
         </div>
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            title="کل شناورها"
+            title={t("adminDashboard.stats.totalVessels.title")}
             value={loading ? "..." : vessels.length}
             icon={<Ship className="h-4 w-4" />}
-            description="تعداد کل شناورهای ثبت شده"
+            description={t("adminDashboard.stats.totalVessels.description")}
           />
           <StatCard
-            title="شناورهای فعال"
+            title={t("adminDashboard.stats.activeVessels.title")}
             value={loading ? "..." : activeVessels}
             icon={<Activity className="h-4 w-4" />}
-            description="شناورهای در حال فعالیت"
+            description={t("adminDashboard.stats.activeVessels.description")}
           />
           <StatCard
-            title="در انتظار تأیید"
+            title={t("adminDashboard.stats.pendingVessels.title")}
             value={loading ? "..." : pendingVessels}
             icon={<Users className="h-4 w-4" />}
-            description="شناورهای نیازمند بررسی"
+            description={t("adminDashboard.stats.pendingVessels.description")}
           />
           <StatCard
-            title="هشدارهای فعال"
+            title={t("adminDashboard.stats.activeAlerts.title")}
             value={loading ? "..." : alerts.length}
             icon={<AlertTriangle className="h-4 w-4" />}
-            description="هشدارهای خوانده نشده"
+            description={t("adminDashboard.stats.activeAlerts.description")}
           />
         </div>
 
@@ -76,13 +78,13 @@ export default function AdminDashboard() {
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>آخرین شناورها</CardTitle>
+              <CardTitle>{t("adminDashboard.latestVessels.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">در حال بارگذاری...</p>
+                <p className="text-muted-foreground">{t("common.loading")}</p>
               ) : vessels.length === 0 ? (
-                <p className="text-muted-foreground">شناوری ثبت نشده است</p>
+                <p className="text-muted-foreground">{t("adminDashboard.latestVessels.empty")}</p>
               ) : (
                 <div className="space-y-4">
                   {vessels.slice(0, 5).map((vessel) => (
@@ -91,8 +93,8 @@ export default function AdminDashboard() {
                       className="flex items-center justify-between border-b border-border pb-2 last:border-0"
                     >
                       <div>
-                        <p className="font-medium">{vessel.name}</p>
-                        <p className="text-sm text-muted-foreground">{vessel.ownerName}</p>
+                        <p className="font-medium">{localize(vessel.name)}</p>
+                        <p className="text-sm text-muted-foreground">{localize(vessel.ownerName)}</p>
                       </div>
                       <div
                         className={`rounded-full px-2 py-1 text-xs ${
@@ -103,7 +105,11 @@ export default function AdminDashboard() {
                               : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
-                        {vessel.status === "active" ? "فعال" : vessel.status === "pending" ? "در انتظار" : "غیرفعال"}
+                        {vessel.status === "active"
+                          ? t("vessels.status.active")
+                          : vessel.status === "pending"
+                            ? t("vessels.status.pending")
+                            : t("vessels.status.inactive")}
                       </div>
                     </div>
                   ))}
@@ -114,13 +120,13 @@ export default function AdminDashboard() {
 
           <Card>
             <CardHeader>
-              <CardTitle>هشدارهای اخیر</CardTitle>
+              <CardTitle>{t("adminDashboard.recentAlerts.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">در حال بارگذاری...</p>
+                <p className="text-muted-foreground">{t("common.loading")}</p>
               ) : alerts.length === 0 ? (
-                <p className="text-muted-foreground">هشداری وجود ندارد</p>
+                <p className="text-muted-foreground">{t("adminDashboard.recentAlerts.empty")}</p>
               ) : (
                 <div className="space-y-4">
                   {alerts.slice(0, 5).map((alert) => (
@@ -135,9 +141,9 @@ export default function AdminDashboard() {
                         }`}
                       />
                       <div className="flex-1">
-                        <p className="text-sm">{alert.message}</p>
+                        <p className="text-sm">{localize(alert.message)}</p>
                         <p className="text-xs text-muted-foreground">
-                          {new Date(alert.timestamp).toLocaleString("fa-IR")}
+                          {new Date(alert.timestamp).toLocaleString(dateLocale)}
                         </p>
                       </div>
                     </div>

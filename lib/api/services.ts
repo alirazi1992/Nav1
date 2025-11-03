@@ -6,9 +6,9 @@ const STORAGE_KEY = "maritime_services"
 const seedServices: Service[] = [
   {
     id: "s1",
-    name: "خدمات تعمیرات دریایی پارس",
+    name: "خدمات تعمیرات دریایی پارس | Pars Marine Repairs",
     category: "repair",
-    description: "ارائه خدمات تعمیر و نگهداری شناورها",
+    description: "ارائه خدمات تعمیر و نگهداری شناورها | Comprehensive vessel maintenance and repair",
     location: { lat: 27.1865, lng: 56.2808 },
     contact: {
       phone: "+98-21-12345678",
@@ -21,9 +21,9 @@ const seedServices: Service[] = [
   },
   {
     id: "s2",
-    name: "تأمین سوخت و مواد",
+    name: "تأمین سوخت و مواد | Fuel & provisions",
     category: "supply",
-    description: "تأمین سوخت، آب و مواد غذایی",
+    description: "تأمین سوخت، آب و مواد غذایی | Supplying fuel, water, and stores",
     location: { lat: 27.2, lng: 56.3 },
     contact: {
       phone: "+98-21-87654321",

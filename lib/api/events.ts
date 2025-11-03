@@ -6,12 +6,12 @@ const STORAGE_KEY = "maritime_events"
 const seedEvents: Event[] = [
   {
     id: "e1",
-    title: "کنفرانس دریانوردی خلیج فارس",
-    description: "کنفرانس سالانه دریانوردی با حضور متخصصان بین‌المللی",
+    title: "کنفرانس دریانوردی خلیج فارس | Persian Gulf Maritime Conference",
+    description: "کنفرانس سالانه دریانوردی با حضور متخصصان بین‌المللی | Annual maritime summit with international experts",
     startDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
     endDate: new Date(Date.now() + 32 * 24 * 60 * 60 * 1000).toISOString(),
     location: {
-      name: "بندر عباس",
+      name: "بندر عباس | Bandar Abbas",
       lat: 27.1865,
       lng: 56.2808,
     },
@@ -22,11 +22,11 @@ const seedEvents: Event[] = [
   },
   {
     id: "e2",
-    title: "دوره آموزشی ایمنی دریایی",
-    description: "دوره جامع آموزش ایمنی و مقررات دریایی",
+    title: "دوره آموزشی ایمنی دریایی | Maritime safety training course",
+    description: "دوره جامع آموزش ایمنی و مقررات دریایی | Comprehensive safety and regulatory workshop",
     startDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
     location: {
-      name: "تهران",
+      name: "تهران | Tehran",
       lat: 35.6892,
       lng: 51.389,
     },

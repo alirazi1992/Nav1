@@ -35,7 +35,7 @@ export function VesselMap({
   zoom = 8,
   onVesselClick,
 }: VesselMapProps) {
-  const { t } = useTranslation()
+  const { t, localize } = useTranslation()
 
   const text = useMemo(
     () => ({
@@ -65,13 +65,38 @@ export function VesselMap({
   const [showPorts, setShowPorts] = useState(true)
   const [layersOpen, setLayersOpen] = useState(false)
 
+  const plottableVessels = useMemo(() => {
+    return vessels
+      .map((vessel) => {
+        const lat = vessel.position?.lat ?? (vessel as any).lat ?? (vessel as any).latitude
+        const lng = vessel.position?.lng ?? (vessel as any).lng ?? (vessel as any).longitude
+
+        if (!isNumber(lat) || !isNumber(lng)) {
+          return null
+        }
+
+        return {
+          vessel,
+          position: { lat, lng },
+        }
+      })
+      .filter((entry): entry is { vessel: Vessel; position: { lat: number; lng: number } } => entry !== null)
+  }, [vessels])
+
   useEffect(() => {
     setMounted(true)
   }, [])
 
   const noDataLabel = t("common.noData")
-  const formatText = (value: string | number | null | undefined) =>
-    value === undefined || value === null || value === "" ? noDataLabel : String(value)
+  const formatText = (value: string | number | null | undefined) => {
+    if (value === undefined || value === null || value === "") {
+      return noDataLabel
+    }
+    if (typeof value === "string") {
+      return localize(value)
+    }
+    return String(value)
+  }
 
   const formatSpeed = (value: number | null | undefined) =>
     isNumber(value) ? `${value} ${t("units.knot")}` : noDataLabel
@@ -108,14 +133,11 @@ export function VesselMap({
               />
 
               {showVessels &&
-                vessels.map((vessel) => {
-                  const lat = vessel.position?.lat ?? vessel.latitude ?? FALLBACK_CENTER[0]
-                  const lng = vessel.position?.lng ?? vessel.longitude ?? FALLBACK_CENTER[1]
-
+                plottableVessels.map(({ vessel, position }) => {
                   return (
                     <Marker
                       key={vessel.id}
-                      position={[lat, lng]}
+                      position={[position.lat, position.lng]}
                       eventHandlers={{
                         click: () => onVesselClick?.(vessel),
                       }}
@@ -149,7 +171,23 @@ export function VesselMap({
                   const isPort = type === "port"
                   if (isPort && !showPorts) return null
 
-                  const coordinates = (region.geometry?.coordinates?.[0] ?? []) as [number, number][]
+                  const coordinatesSource = Array.isArray(region.geometry?.coordinates)
+                    ? region.geometry?.coordinates?.[0]
+                    : []
+
+                  const coordinates = Array.isArray(coordinatesSource)
+                    ? coordinatesSource
+                        .map((point) =>
+                          Array.isArray(point) && point.length >= 2 && point.every((value) => typeof value === "number")
+                            ? ([point[0], point[1]] as [number, number])
+                            : null,
+                        )
+                        .filter((point): point is [number, number] => point !== null)
+                    : []
+
+                  if (!coordinates.length) {
+                    return null
+                  }
 
                   return (
                     <Polygon

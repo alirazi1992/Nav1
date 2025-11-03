@@ -1,6 +1,7 @@
-﻿"use client"
+"use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import type { MouseEvent } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
@@ -21,7 +22,7 @@ const CANVAS_SIZE = 600
 
 export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTargetClick }: RadarWidgetProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const { t } = useTranslation()
+  const { t, localize } = useTranslation()
   const [sweepAngle, setSweepAngle] = useState(0)
   const [gain, setGain] = useState(50)
   const [threshold, setThreshold] = useState(30)
@@ -31,8 +32,32 @@ export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTarge
   const [boostEnabled, setBoostEnabled] = useState(false)
   const [selectedVessel, setSelectedVessel] = useState<Vessel | null>(null)
 
-  const formatDetail = (value: string | number | null | undefined) =>
-    value === undefined || value === null || value === "" ? t("common.noData") : String(value)
+  const resolvePosition = useCallback((vessel: Vessel) => {
+    const candidate =
+      vessel.position ??
+      ((vessel as any).position && typeof (vessel as any).position === "object"
+        ? ((vessel as any).position as { lat?: unknown; lng?: unknown })
+        : null)
+
+    const lat = candidate?.lat ?? (vessel as any).lat ?? (vessel as any).latitude
+    const lng = candidate?.lng ?? (vessel as any).lng ?? (vessel as any).longitude
+
+    if (typeof lat !== "number" || !Number.isFinite(lat) || typeof lng !== "number" || !Number.isFinite(lng)) {
+      return null
+    }
+
+    return { lat, lng }
+  }, [])
+
+  const formatDetail = (value: string | number | null | undefined) => {
+    if (value === undefined || value === null || value === "") {
+      return t("common.noData")
+    }
+    if (typeof value === "string") {
+      return localize(value)
+    }
+    return String(value)
+  }
 
   const formatSpeedDetail = (value: number | null | undefined) =>
     typeof value === "number" && Number.isFinite(value) ? `${value} ${t("units.knot")}` : t("common.noData")
@@ -120,8 +145,11 @@ export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTarge
     const noiseLevel = threshold / 100
 
     vessels.forEach((vessel) => {
-      const latDiff = vessel.position.lat - centerLat
-      const lngDiff = vessel.position.lng - centerLng
+      const position = resolvePosition(vessel)
+      if (!position) return
+
+      const latDiff = position.lat - centerLat
+      const lngDiff = position.lng - centerLng
 
       const distanceNM = Math.sqrt(
         latDiff * latDiff * 3600 + lngDiff * lngDiff * 3600 * Math.cos((centerLat * Math.PI) / 180),
@@ -151,9 +179,9 @@ export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTarge
       ctx.fillStyle = `rgba(0, 255, 180, ${Math.min(intensity, 1)})`
       ctx.fill()
     })
-  }, [boostEnabled, cfarEnabled, centerLat, centerLng, gain, range, stcEnabled, threshold, vessels, sweepAngle])
+  }, [boostEnabled, cfarEnabled, centerLat, centerLng, gain, range, resolvePosition, stcEnabled, threshold, vessels, sweepAngle])
 
-  const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleCanvasClick = (event: MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -165,8 +193,11 @@ export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTarge
     const radius = Math.min(canvas.width, canvas.height) / 2 - 20
 
     for (const vessel of vessels) {
-      const latDiff = vessel.position.lat - centerLat
-      const lngDiff = vessel.position.lng - centerLng
+      const position = resolvePosition(vessel)
+      if (!position) continue
+
+      const latDiff = position.lat - centerLat
+      const lngDiff = position.lng - centerLng
       const distanceNM = Math.sqrt(
         latDiff * latDiff * 3600 + lngDiff * lngDiff * 3600 * Math.cos((centerLat * Math.PI) / 180),
       )
@@ -188,6 +219,8 @@ export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTarge
 
     setSelectedVessel(null)
   }
+
+  const selectedPosition = selectedVessel ? resolvePosition(selectedVessel) : null
 
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
@@ -266,9 +299,9 @@ export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTarge
               <div>
                 <Label className="text-muted-foreground">{t("radarWidget.position")}</Label>
                 <p className="font-mono text-sm">
-                  {formatCoordinate(selectedVessel?.position?.lat)}
+                  {formatCoordinate(selectedPosition?.lat)}
                   {t("units.degree")},{" "}
-                  {formatCoordinate(selectedVessel?.position?.lng)}
+                  {formatCoordinate(selectedPosition?.lng)}
                   {t("units.degree")}
                 </p>
               </div>

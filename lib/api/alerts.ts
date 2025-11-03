@@ -7,24 +7,24 @@ const ALERTS_KEY = "maritime_alerts"
 const seedRules: AlertRule[] = [
   {
     id: "ar1",
-    name: "هشدار موج بلند",
+    name: "هشدار موج بلند | High wave alert",
     conditions: {
       waveHeight: { operator: ">", value: 2 },
     },
     alertLevel: "warning",
-    message: "ارتفاع موج از ۲ متر تجاوز کرده است",
+    message: "ارتفاع موج از ۲ متر تجاوز کرده است | Wave height exceeds 2 meters",
     notifyOwner: true,
     isActive: true,
     createdAt: new Date().toISOString(),
   },
   {
     id: "ar2",
-    name: "هشدار باد شدید",
+    name: "هشدار باد شدید | Severe wind alert",
     conditions: {
       windSpeed: { operator: ">", value: 20 },
     },
     alertLevel: "danger",
-    message: "سرعت باد از ۲۰ گره تجاوز کرده است",
+    message: "سرعت باد از ۲۰ گره تجاوز کرده است | Wind speed exceeds 20 knots",
     notifyOwner: true,
     isActive: true,
     createdAt: new Date().toISOString(),

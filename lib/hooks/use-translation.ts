@@ -3,6 +3,7 @@
 import { useUIStore } from "@/lib/store/ui-store"
 import { translations } from "@/lib/i18n/translations"
 import { defaultLocale } from "@/lib/i18n/config"
+import { localizeText } from "@/lib/i18n/utils"
 
 export function useTranslation() {
   const locale = useUIStore((state) => state.locale)
@@ -32,18 +33,21 @@ export function useTranslation() {
     return key
   }
 
+  const translate = (key: string, params?: Record<string, string | number>) => {
+    const result = t(key, params)
+    if (result === key) {
+      const lastSegment = key.split(".").pop() ?? key
+      return lastSegment
+        .replace(/[_-]+/g, " ")
+        .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+        .replace(/\b\w/g, (letter) => letter.toUpperCase())
+    }
+    return result
+  }
+
   return {
-    t: (key: string, params?: Record<string, string | number>) => {
-      const result = t(key, params)
-      if (result === key) {
-        const lastSegment = key.split(".").pop() ?? key
-        return lastSegment
-          .replace(/[_-]+/g, " ")
-          .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
-          .replace(/\b\w/g, (letter) => letter.toUpperCase())
-      }
-      return result
-    },
+    t: translate,
     locale: activeLocale,
+    localize: (value: string | null | undefined) => localizeText(value, activeLocale),
   }
 }
