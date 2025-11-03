@@ -13,54 +13,84 @@ import {
 } from "lucide-react"
 
 export interface NavigationItem {
-  title: string
+  title: {
+    fa: string
+    en: string
+  }
   href: string
   icon: ReactNode
 }
 
 export const adminNavItems: NavigationItem[] = [
   {
-    title: "داشبورد",
+    title: {
+      fa: "داشبورد",
+      en: "Dashboard",
+    },
     href: "/admin",
     icon: <LayoutDashboard className="h-4 w-4" />,
   },
   {
-    title: "مدیریت شناورها",
+    title: {
+      fa: "مدیریت شناورها",
+      en: "Vessel Management",
+    },
     href: "/admin/vessels",
     icon: <Ship className="h-4 w-4" />,
   },
   {
-    title: "کاربران سامانه",
+    title: {
+      fa: "کاربران سامانه",
+      en: "User Directory",
+    },
     href: "/admin/users",
     icon: <Users className="h-4 w-4" />,
   },
   {
-    title: "مناطق دریایی",
+    title: {
+      fa: "مناطق دریایی",
+      en: "Maritime Regions",
+    },
     href: "/admin/regions",
     icon: <Map className="h-4 w-4" />,
   },
   {
-    title: "رادار و نقشه",
+    title: {
+      fa: "رادار و نقشه",
+      en: "Radar & Map",
+    },
     href: "/admin/radar",
     icon: <Radar className="h-4 w-4" />,
   },
   {
-    title: "رویدادها و مأموریت‌ها",
+    title: {
+      fa: "رویدادها و مأموریت‌ها",
+      en: "Events & Missions",
+    },
     href: "/admin/events",
     icon: <CalendarDays className="h-4 w-4" />,
   },
   {
-    title: "خدمات بندری",
+    title: {
+      fa: "خدمات بندری",
+      en: "Port Services",
+    },
     href: "/admin/services",
     icon: <LifeBuoy className="h-4 w-4" />,
   },
   {
-    title: "داده‌های اقیانوس",
+    title: {
+      fa: "داده‌های اقیانوس",
+      en: "Ocean Intelligence",
+    },
     href: "/admin/ocean",
     icon: <Waves className="h-4 w-4" />,
   },
   {
-    title: "تنظیمات سامانه",
+    title: {
+      fa: "تنظیمات سامانه",
+      en: "System Settings",
+    },
     href: "/admin/settings",
     icon: <Cog className="h-4 w-4" />,
   },
@@ -68,12 +98,18 @@ export const adminNavItems: NavigationItem[] = [
 
 export const clientNavItems: NavigationItem[] = [
   {
-    title: "داشبورد من",
+    title: {
+      fa: "داشبورد من",
+      en: "My Dashboard",
+    },
     href: "/app",
     icon: <LayoutDashboard className="h-4 w-4" />,
   },
   {
-    title: "اخبار و اعلان‌ها",
+    title: {
+      fa: "اخبار و اعلان‌ها",
+      en: "News & Notices",
+    },
     href: "/app/news",
     icon: <Newspaper className="h-4 w-4" />,
   },

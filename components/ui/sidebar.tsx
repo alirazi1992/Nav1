@@ -15,7 +15,10 @@ import {
 import { useUIStore } from "@/lib/store/ui-store";
 
 interface SidebarItem {
-  title: string;
+  title: {
+    fa: string;
+    en: string;
+  };
   href: string;
   icon: React.ReactNode;
 }
@@ -43,7 +46,7 @@ export function Sidebar({
       {...props}
     >
       <ScrollArea className="flex-1 px-3 py-4">
-        <nav className="flex flex-col gap-1" aria-label="Primary navigation">
+        <nav className="flex flex-col gap-1" aria-label="منوی اصلی | Primary navigation">
           {items.map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(item.href + "/");
@@ -53,17 +56,22 @@ export function Sidebar({
                 asChild
                 variant={isActive ? "secondary" : "ghost"}
                 className={cn(
-                  "w-full justify-start gap-3",
+                  "w-full justify-end gap-3 text-right",
                   isActive && "bg-sidebar-accent text-sidebar-accent-foreground"
                 )}
               >
                 <Link
                   href={item.href}
                   onClick={onNavigate}
-                  className="flex items-center gap-3"
+                  className="flex flex-row-reverse items-center gap-3"
                 >
                   {item.icon}
-                  <span>{item.title}</span>
+                  <span className="flex flex-col items-end text-right">
+                    <span className="font-medium leading-none">{item.title.fa}</span>
+                    <span className="text-xs text-muted-foreground leading-tight">
+                      {item.title.en}
+                    </span>
+                  </span>
                 </Link>
               </Button>
             );
@@ -83,7 +91,7 @@ export function MobileSidebar({ items }: { items: SidebarProps["items"] }) {
       <SheetContent side="right" className="w-64 p-0">
         {/* Hidden but accessible title to satisfy Radix Dialog a11y */}
         <SheetHeader>
-          <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+          <SheetTitle className="sr-only">منوی ناوبری | Navigation menu</SheetTitle>
         </SheetHeader>
 
         <Sidebar
