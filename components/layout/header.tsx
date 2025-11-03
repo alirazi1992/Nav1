@@ -36,7 +36,12 @@ export function Header() {
         </Button>
 
         <div className="flex-1">
-          <h1 className="text-lg font-semibold">سامانه نظارت دریایی</h1>
+          <h1 className="text-lg font-semibold leading-tight text-right">
+            <span>سامانه نظارت دریایی</span>
+            <span className="block text-xs font-normal text-muted-foreground">
+              Maritime Monitoring System
+            </span>
+          </h1>
         </div>
 
         <div className="flex items-center gap-2">

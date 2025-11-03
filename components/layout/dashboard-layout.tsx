@@ -5,14 +5,11 @@ import { Header } from "./header"
 import { Sidebar, MobileSidebar } from "@/components/ui/sidebar"
 import { useUIStore } from "@/lib/store/ui-store"
 import { cn } from "@/lib/utils"
+import type { NavigationItem } from "@/lib/config/navigation"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
-  sidebarItems: {
-    title: string
-    href: string
-    icon: React.ReactNode
-  }[]
+  sidebarItems: NavigationItem[]
 }
 
 export function DashboardLayout({ children, sidebarItems }: DashboardLayoutProps) {

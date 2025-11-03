@@ -19,7 +19,7 @@ export const useUIStore = create<UIState>()(
   persist(
     (set) => ({
       theme: "light",
-      locale: "en",
+      locale: "fa",
       sidebarOpen: true,
       _hasHydrated: false,
       setHasHydrated: (state) => set({ _hasHydrated: state }),
