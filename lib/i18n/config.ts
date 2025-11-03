@@ -4,8 +4,8 @@ export type Locale = (typeof locales)[number]
 export const defaultLocale: Locale = "fa"
 
 export const localeNames: Record<Locale, string> = {
-  fa: "فارسی | Persian",
-  en: "English | انگلیسی",
+  fa: "فارسی",
+  en: "English",
 }
 
 export const localeDirections: Record<Locale, "rtl" | "ltr"> = {

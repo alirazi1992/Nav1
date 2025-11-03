@@ -30,8 +30,8 @@ export default function LoginPage() {
 
     if (result.success) {
       toast({
-        title: "ورود موفق | Login successful",
-        description: "به سامانه خوش آمدید | Welcome to the platform",
+        title: t("auth.success.loginTitle"),
+        description: t("auth.success.loginDescription"),
       })
 
       // Redirect based on role
@@ -43,8 +43,8 @@ export default function LoginPage() {
       }
     } else {
       toast({
-        title: "خطا | Error",
-        description: result.error || "ورود ناموفق بود | Login failed",
+        title: t("common.error"),
+        description: t(result.error ?? "auth.errorMessages.loginFailed"),
         variant: "destructive",
       })
     }
@@ -56,7 +56,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/10 via-background to-primary/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">سامانه نظارت دریایی | Maritime Monitoring System</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">{t("common.appName")}</CardTitle>
           <CardDescription className="text-center">{t("auth.signIn")}</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
@@ -83,8 +83,8 @@ export default function LoginPage() {
               />
             </div>
             <div className="text-sm text-muted-foreground">
-              <p>حساب آزمایشی مدیر: admin@maritime.ir / admin123 | Admin demo account</p>
-              <p>حساب آزمایشی کاربر: client@maritime.ir / client123 | Client demo account</p>
+              <p>{`${t("auth.demo.admin")}: admin@maritime.ir / admin123`}</p>
+              <p>{`${t("auth.demo.client")}: client@maritime.ir / client123`}</p>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">

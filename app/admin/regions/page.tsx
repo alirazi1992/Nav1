@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Layers, MapPin, RefreshCcw, ScrollText } from "lucide-react";
+import { useTranslation } from "@/lib/hooks/use-translation";
 
 const regionTypeLabels: Record<Region["type"], string> = {
   port: "Port",
@@ -48,6 +49,7 @@ export default function AdminRegionsPage() {
   const [policies, setPolicies] = useState<Policy[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const { localize, locale } = useTranslation();
 
   const loadData = async () => {
     setLoading(true);
@@ -179,7 +181,7 @@ export default function AdminRegionsPage() {
                               <TableCell>
                                 <div className="flex flex-col">
                                   <span className="font-medium">
-                                    {region.name}
+                                    {localize(region.name)}
                                   </span>
                                   <span className="text-xs text-muted-foreground">
                                     {vertices} vertices
@@ -193,13 +195,13 @@ export default function AdminRegionsPage() {
                               </TableCell>
                               <TableCell>
                                 {region.createdAt
-                                  ? new Date(
-                                      region.createdAt
-                                    ).toLocaleDateString("fa-IR")
+                                  ? new Date(region.createdAt).toLocaleDateString(
+                                      locale === "fa" ? "fa-IR" : "en-US",
+                                    )
                                   : "—"}
                               </TableCell>
                               <TableCell className="max-w-sm truncate text-sm text-muted-foreground">
-                                {region.description ?? "—"}
+                                {region.description ? localize(region.description) : "—"}
                               </TableCell>
                             </TableRow>
                           );
@@ -244,14 +246,14 @@ export default function AdminRegionsPage() {
                               <TableCell>
                                 <div className="flex flex-col">
                                   <span className="font-medium">
-                                    {policy.title}
+                                    {localize(policy.title)}
                                   </span>
                                   <span className="max-w-xs truncate text-xs text-muted-foreground">
-                                    {policy.content}
+                                    {localize(policy.content)}
                                   </span>
                                 </div>
                               </TableCell>
-                              <TableCell>{regionName}</TableCell>
+                              <TableCell>{localize(regionName)}</TableCell>
                               <TableCell>
                                 <Badge variant="outline">
                                   {policyCategoryLabels[policy.category] ??
@@ -260,9 +262,9 @@ export default function AdminRegionsPage() {
                               </TableCell>
                               <TableCell>
                                 {policy.effectiveDate
-                                  ? new Date(
-                                      policy.effectiveDate
-                                    ).toLocaleDateString("fa-IR")
+                                  ? new Date(policy.effectiveDate).toLocaleDateString(
+                                      locale === "fa" ? "fa-IR" : "en-US",
+                                    )
                                   : "—"}
                               </TableCell>
                             </TableRow>

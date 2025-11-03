@@ -16,7 +16,7 @@ import { VesselFormDialog } from "@/components/vessels/vessel-form-dialog"
 export default function AdminVesselsPage() {
   const router = useRouter()
   const { toast } = useToast()
-  const { t } = useTranslation()
+  const { t, localize, locale } = useTranslation()
   const [vessels, setVessels] = useState<Vessel[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -96,6 +96,8 @@ export default function AdminVesselsPage() {
     }
   }
 
+  const dateLocale = locale === "fa" ? "fa-IR" : "en-US"
+
   return (
     <DashboardLayout sidebarItems={adminNavItems}>
       <div className="space-y-6">
@@ -136,9 +138,9 @@ export default function AdminVesselsPage() {
                 ) : (
                   vessels.map((vessel) => (
                     <TableRow key={vessel.id}>
-                      <TableCell className="font-medium">{vessel.name}</TableCell>
+                      <TableCell className="font-medium">{localize(vessel.name)}</TableCell>
                       <TableCell>{t(`vessels.type.${vessel.type}`) ?? vessel.type}</TableCell>
-                      <TableCell>{vessel.ownerName}</TableCell>
+                      <TableCell>{localize(vessel.ownerName)}</TableCell>
                       <TableCell>
                         <span className="inline-flex items-center rounded-full bg-muted px-2 py-1 text-xs font-medium">
                           {t(`vessels.status.${vessel.status}`)}
@@ -147,7 +149,7 @@ export default function AdminVesselsPage() {
                       <TableCell>{vessel.speed} {t("vessels.knotsUnit")}</TableCell>
                       <TableCell>
                         {vessel.lastInspection
-                          ? new Date(vessel.lastInspection).toLocaleDateString("fa-IR")
+                          ? new Date(vessel.lastInspection).toLocaleDateString(dateLocale)
                           : "—"}
                       </TableCell>
                       <TableCell className="text-right">

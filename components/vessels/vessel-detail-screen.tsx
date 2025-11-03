@@ -74,7 +74,7 @@ export function VesselDetailScreen({
   showStatusControls = false,
 }: VesselDetailScreenProps) {
   const params = useParams()
-  const { t } = useTranslation()
+  const { t, localize, locale } = useTranslation()
   const formatNumber = (value: number, options?: Intl.NumberFormatOptions) =>
     new Intl.NumberFormat("fa-IR", options).format(value)
   const formatSignedNumber = (value: number, options?: Intl.NumberFormatOptions) => {
@@ -329,10 +329,12 @@ export function VesselDetailScreen({
     },
   ]
 
+  const dateLocale = locale === "fa" ? "fa-IR" : "en-US"
+
   const formatDate = (value?: string) => {
     if (!value) return t("reminders.noDueDate")
     try {
-      return new Date(value).toLocaleDateString("fa-IR")
+      return new Date(value).toLocaleDateString(dateLocale)
     } catch {
       return value
     }
@@ -358,7 +360,7 @@ export function VesselDetailScreen({
           <div>
             <div className="flex flex-wrap items-center gap-3 mb-2">
               <Ship className="w-8 h-8 text-primary" />
-              <h1 className="text-3xl font-bold">{vessel.name}</h1>
+              <h1 className="text-3xl font-bold">{localize(vessel.name)}</h1>
               <Badge className={cn("text-xs", statusBadgeVariants[vessel.status])}>
                 {t(`vessels.status.${vessel.status}`)}
               </Badge>
@@ -370,18 +372,18 @@ export function VesselDetailScreen({
               {vessel.callSign && <span>{t("vessel.callSignLabel")}: {vessel.callSign}</span>}
               <span className="flex items-center gap-1">
                 <MapPin className="w-4 h-4" />
-                {vessel.currentLocation || vessel.homePort || t("vessel.unknownLocation")}
+                {localize(vessel.currentLocation || vessel.homePort || t("vessel.unknownLocation"))}
               </span>
             </div>
           </div>
           <div className="flex flex-col items-start gap-2 text-sm text-muted-foreground md:items-end">
             <p>
               {t("vessel.ownerLabel")}:{" "}
-              <span className="font-medium text-foreground">{vessel.ownerName}</span>
+              <span className="font-medium text-foreground">{localize(vessel.ownerName)}</span>
             </p>
             <p>
               {t("vessels.lastUpdate")}:{" "}
-              {new Date(vessel.lastUpdate).toLocaleString("fa-IR")}
+              {new Date(vessel.lastUpdate).toLocaleString(dateLocale)}
             </p>
             {showStatusControls && (
               <div className="flex flex-wrap gap-2 pt-1">

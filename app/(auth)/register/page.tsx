@@ -34,8 +34,8 @@ export default function RegisterPage() {
 
     if (result.success) {
       toast({
-        title: "ثبت‌نام موفق | Registration successful",
-        description: "حساب کاربری شما ایجاد شد | Your account has been created",
+        title: t("auth.success.registerTitle"),
+        description: t("auth.success.registerDescription"),
       })
 
       if (role === "admin") {
@@ -45,8 +45,8 @@ export default function RegisterPage() {
       }
     } else {
       toast({
-        title: "خطا | Error",
-        description: result.error || "ثبت‌نام ناموفق بود | Registration failed",
+        title: t("common.error"),
+        description: t(result.error ?? "auth.errorMessages.registerFailed"),
         variant: "destructive",
       })
     }
@@ -58,17 +58,17 @@ export default function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/10 via-background to-primary/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">سامانه نظارت دریایی | Maritime Monitoring System</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">{t("common.appName")}</CardTitle>
           <CardDescription className="text-center">{t("auth.signUp")}</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">نام و نام خانوادگی | Full name</Label>
+              <Label htmlFor="name">{t("auth.form.fullName")}</Label>
               <Input
                 id="name"
                 type="text"
-                placeholder="نام خود را وارد کنید | Enter your name"
+                placeholder={t("auth.form.fullNamePlaceholder")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -97,14 +97,14 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="role">نقش کاربری | User role</Label>
+              <Label htmlFor="role">{t("auth.form.role")}</Label>
               <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="client">کاربر (مالک شناور) | Client (Vessel owner)</SelectItem>
-                  <SelectItem value="admin">مدیر سیستم | System administrator</SelectItem>
+                  <SelectItem value="client">{t("auth.form.roleClient")}</SelectItem>
+                  <SelectItem value="admin">{t("auth.form.roleAdmin")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

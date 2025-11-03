@@ -9,10 +9,9 @@ import { useTranslation } from "@/lib/hooks/use-translation"
 import { useRouter } from "next/navigation"
 
 export function Header() {
-  const { t } = useTranslation()
+  const { t, localize, locale } = useTranslation()
   const router = useRouter()
   const theme = useUIStore((state) => state.theme)
-  const locale = useUIStore((state) => state.locale)
   const toggleTheme = useUIStore((state) => state.toggleTheme)
   const setLocale = useUIStore((state) => state.setLocale)
   const sidebarOpen = useUIStore((state) => state.sidebarOpen)
@@ -36,7 +35,7 @@ export function Header() {
         </Button>
 
         <div className="flex-1">
-          <h1 className="text-lg font-semibold">سامانه نظارت دریایی | Maritime Monitoring System</h1>
+          <h1 className="text-lg font-semibold">{t("common.appName")}</h1>
         </div>
 
         <div className="flex items-center gap-2">
@@ -49,10 +48,10 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setLocale("fa")} className={locale === "fa" ? "bg-accent" : ""}>
-                فارسی | Persian
+                {t("common.languages.fa")}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setLocale("en")} className={locale === "en" ? "bg-accent" : ""}>
-                English | انگلیسی
+                {t("common.languages.en")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -68,9 +67,9 @@ export function Header() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="gap-2">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                    {user.name.charAt(0)}
+                    {(localize(user.name)?.charAt(0) ?? user.name.charAt(0)).toUpperCase()}
                   </div>
-                  <span className="hidden md:inline">{user.name}</span>
+                  <span className="hidden md:inline">{localize(user.name)}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">

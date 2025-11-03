@@ -22,7 +22,7 @@ const CANVAS_SIZE = 600
 
 export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTargetClick }: RadarWidgetProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const { t } = useTranslation()
+  const { t, localize } = useTranslation()
   const [sweepAngle, setSweepAngle] = useState(0)
   const [gain, setGain] = useState(50)
   const [threshold, setThreshold] = useState(30)
@@ -49,8 +49,15 @@ export function RadarWidget({ vessels, centerLat, centerLng, range = 50, onTarge
     return { lat, lng }
   }, [])
 
-  const formatDetail = (value: string | number | null | undefined) =>
-    value === undefined || value === null || value === "" ? t("common.noData") : String(value)
+  const formatDetail = (value: string | number | null | undefined) => {
+    if (value === undefined || value === null || value === "") {
+      return t("common.noData")
+    }
+    if (typeof value === "string") {
+      return localize(value)
+    }
+    return String(value)
+  }
 
   const formatSpeedDetail = (value: number | null | undefined) =>
     typeof value === "number" && Number.isFinite(value) ? `${value} ${t("units.knot")}` : t("common.noData")

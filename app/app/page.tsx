@@ -11,9 +11,11 @@ import { newsApi } from "@/lib/api/news"
 import { useAuthStore } from "@/lib/store/auth-store"
 import { clientNavItems } from "@/lib/config/navigation"
 import type { Vessel, Alert, News } from "@/lib/types"
+import { useTranslation } from "@/lib/hooks/use-translation"
 
 export default function ClientDashboard() {
   const user = useAuthStore((state) => state.user)
+  const { localize, locale, t } = useTranslation()
   const [vessels, setVessels] = useState<Vessel[]>([])
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [news, setNews] = useState<News[]>([])
@@ -43,40 +45,47 @@ export default function ClientDashboard() {
   }, [user])
 
   const activeVessels = vessels.filter((v) => v.status === "active").length
+  const displayName = user ? localize(user.name) : ""
+  const greeting = displayName
+    ? t("clientDashboard.welcome.named", { name: displayName })
+    : t("clientDashboard.welcome.default")
+  const dateLocale = locale === "fa" ? "fa-IR" : "en-US"
 
   return (
     <DashboardLayout sidebarItems={clientNavItems}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold">خوش آمدید، {user?.name} | Welcome aboard</h1>
-          <p className="text-muted-foreground">نمای کلی شناورها و فعالیت‌های شما | Overview of your fleet and operations</p>
+          <h1 className="text-3xl font-bold">{greeting}</h1>
+          <p className="text-muted-foreground">
+            {t("clientDashboard.description")}
+          </p>
         </div>
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            title="شناورهای من | My vessels"
+            title={t("clientDashboard.stats.myVessels.title")}
             value={loading ? "..." : vessels.length}
             icon={<Ship className="h-4 w-4" />}
-            description="تعداد کل شناورها | Total registered"
+            description={t("clientDashboard.stats.myVessels.description")}
           />
           <StatCard
-            title="شناورهای فعال | Active vessels"
+            title={t("clientDashboard.stats.activeVessels.title")}
             value={loading ? "..." : activeVessels}
             icon={<Activity className="h-4 w-4" />}
-            description="در حال فعالیت | Currently operating"
+            description={t("clientDashboard.stats.activeVessels.description")}
           />
           <StatCard
-            title="هشدارها | Alerts"
+            title={t("clientDashboard.stats.alerts.title")}
             value={loading ? "..." : alerts.length}
             icon={<AlertTriangle className="h-4 w-4" />}
-            description="هشدارهای خوانده نشده | Unread notifications"
+            description={t("clientDashboard.stats.alerts.description")}
           />
           <StatCard
-            title="اخبار جدید | Latest news"
+            title={t("clientDashboard.stats.news.title")}
             value={loading ? "..." : news.length}
             icon={<Bell className="h-4 w-4" />}
-            description="اطلاعیه‌های جدید | Fresh announcements"
+            description={t("clientDashboard.stats.news.description")}
           />
         </div>
 
@@ -85,13 +94,13 @@ export default function ClientDashboard() {
           {/* My Vessels */}
           <Card>
             <CardHeader>
-              <CardTitle>شناورهای من | My vessels</CardTitle>
+              <CardTitle>{t("clientDashboard.vessels.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">در حال بارگذاری... | Loading...</p>
+                <p className="text-muted-foreground">{t("common.loading")}</p>
               ) : vessels.length === 0 ? (
-                <p className="text-muted-foreground">شناوری ثبت نشده است | No vessels yet</p>
+                <p className="text-muted-foreground">{t("clientDashboard.vessels.empty")}</p>
               ) : (
                 <div className="space-y-4">
                   {vessels.map((vessel) => (
@@ -104,9 +113,11 @@ export default function ClientDashboard() {
                           <Ship className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium">{vessel.name}</p>
+                          <p className="font-medium">{localize(vessel.name)}</p>
                           <p className="text-sm text-muted-foreground">
-                            {vessel.speed} گره | knots • {vessel.heading}°
+                            {locale === "fa"
+                              ? `${vessel.speed} گره • ${vessel.heading}°`
+                              : `${vessel.speed} knots • ${vessel.heading}°`}
                           </p>
                         </div>
                       </div>
@@ -119,11 +130,7 @@ export default function ClientDashboard() {
                               : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
-                        {vessel.status === "active"
-                          ? "فعال | Active"
-                          : vessel.status === "pending"
-                            ? "در انتظار | Pending"
-                            : "غیرفعال | Inactive"}
+                        {t(`vessels.status.${vessel.status}`)}
                       </div>
                     </div>
                   ))}
@@ -135,13 +142,13 @@ export default function ClientDashboard() {
           {/* Recent News */}
           <Card>
             <CardHeader>
-              <CardTitle>اخبار و اطلاعیه‌ها | News & bulletins</CardTitle>
+              <CardTitle>{t("clientDashboard.news.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">در حال بارگذاری... | Loading...</p>
+                <p className="text-muted-foreground">{t("common.loading")}</p>
               ) : news.length === 0 ? (
-                <p className="text-muted-foreground">خبری وجود ندارد | No news available</p>
+                <p className="text-muted-foreground">{t("clientDashboard.news.empty")}</p>
               ) : (
                 <div className="space-y-4">
                   {news.map((item) => (
@@ -157,10 +164,10 @@ export default function ClientDashboard() {
                           }`}
                         />
                         <div className="flex-1">
-                          <p className="font-medium">{item.title}</p>
-                          <p className="text-sm text-muted-foreground line-clamp-2">{item.content}</p>
+                          <p className="font-medium">{localize(item.title)}</p>
+                          <p className="text-sm text-muted-foreground line-clamp-2">{localize(item.content)}</p>
                           <p className="mt-1 text-xs text-muted-foreground">
-                            {new Date(item.publishedAt).toLocaleDateString("fa-IR")}
+                            {new Date(item.publishedAt).toLocaleDateString(dateLocale)}
                           </p>
                         </div>
                       </div>
@@ -176,7 +183,7 @@ export default function ClientDashboard() {
         {alerts.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>هشدارهای فعال | Active alerts</CardTitle>
+              <CardTitle>{t("clientDashboard.alerts.title")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -201,9 +208,9 @@ export default function ClientDashboard() {
                       }`}
                     />
                     <div className="flex-1">
-                      <p className="font-medium">{alert.message}</p>
+                      <p className="font-medium">{localize(alert.message)}</p>
                       <p className="text-sm text-muted-foreground">
-                        {new Date(alert.timestamp).toLocaleString("fa-IR")}
+                        {new Date(alert.timestamp).toLocaleString(dateLocale)}
                       </p>
                     </div>
                   </div>

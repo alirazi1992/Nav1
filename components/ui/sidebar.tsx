@@ -13,6 +13,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useUIStore } from "@/lib/store/ui-store";
+import { useTranslation } from "@/lib/hooks/use-translation";
 
 interface SidebarItem {
   titleFa: string;
@@ -34,6 +35,8 @@ export function Sidebar({
   ...props
 }: SidebarProps) {
   const pathname = usePathname();
+  const { locale } = useTranslation();
+  const isRTL = locale === "fa";
 
   return (
     <div
@@ -54,8 +57,8 @@ export function Sidebar({
                 asChild
                 variant={isActive ? "secondary" : "ghost"}
                 className={cn(
-                  "group w-full justify-between gap-3 px-3 py-2 text-right transition",
-                  "flex-row-reverse",
+                  "group w-full justify-between gap-3 px-3 py-2 transition",
+                  isRTL ? "flex-row-reverse text-right" : "flex-row text-left",
                   isActive
                     ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
                     : "hover:bg-sidebar-accent/40"
@@ -64,7 +67,10 @@ export function Sidebar({
                 <Link
                   href={item.href}
                   onClick={onNavigate}
-                  className="flex w-full flex-row-reverse items-center gap-3"
+                  className={cn(
+                    "flex w-full items-center gap-3",
+                    isRTL ? "flex-row-reverse" : "flex-row",
+                  )}
                 >
                   <span
                     className={cn(
@@ -76,9 +82,15 @@ export function Sidebar({
                   >
                     {item.icon}
                   </span>
-                  <span className="flex min-w-0 flex-1 flex-col items-end leading-tight">
-                    <span className="truncate text-sm font-semibold">{item.titleFa}</span>
-                    <span className="truncate text-xs text-muted-foreground">{item.titleEn}</span>
+                  <span
+                    className={cn(
+                      "flex min-w-0 flex-1 flex-col leading-tight",
+                      isRTL ? "items-end text-right" : "items-start text-left",
+                    )}
+                  >
+                    <span className="truncate text-sm font-semibold">
+                      {locale === "fa" ? item.titleFa : item.titleEn}
+                    </span>
                   </span>
                 </Link>
               </Button>

@@ -35,7 +35,7 @@ export function VesselMap({
   zoom = 8,
   onVesselClick,
 }: VesselMapProps) {
-  const { t } = useTranslation()
+  const { t, localize } = useTranslation()
 
   const text = useMemo(
     () => ({
@@ -88,8 +88,15 @@ export function VesselMap({
   }, [])
 
   const noDataLabel = t("common.noData")
-  const formatText = (value: string | number | null | undefined) =>
-    value === undefined || value === null || value === "" ? noDataLabel : String(value)
+  const formatText = (value: string | number | null | undefined) => {
+    if (value === undefined || value === null || value === "") {
+      return noDataLabel
+    }
+    if (typeof value === "string") {
+      return localize(value)
+    }
+    return String(value)
+  }
 
   const formatSpeed = (value: number | null | undefined) =>
     isNumber(value) ? `${value} ${t("units.knot")}` : noDataLabel

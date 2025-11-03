@@ -73,7 +73,7 @@ export const useAuthStore = create<AuthState>()(
           return { success: true }
         }
 
-        return { success: false, error: "ایمیل یا رمز عبور اشتباه است | Incorrect email or password" }
+        return { success: false, error: "auth.errorMessages.invalidCredentials" }
       },
 
       logout: () => {

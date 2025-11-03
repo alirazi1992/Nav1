@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { MapPin, RefreshCcw, Trash2, Wrench } from "lucide-react"
+import { useTranslation } from "@/lib/hooks/use-translation"
 
 type ServiceStatus = Service["status"]
 type ServiceCategory = Service["category"]
@@ -60,6 +61,7 @@ const categoryLabels: Record<ServiceCategory, string> = {
 
 export default function AdminServicesPage() {
   const { toast } = useToast()
+  const { localize } = useTranslation()
   const [services, setServices] = useState<Service[]>([])
   const [loading, setLoading] = useState(true)
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -181,7 +183,7 @@ export default function AdminServicesPage() {
       await servicesApi.update(service.id, { status })
       toast({
         title: "Status updated",
-        description: `${service.name} is now ${statusLabels[status].toLowerCase()}.`,
+        description: `${localize(service.name)} is now ${statusLabels[status].toLowerCase()}.`,
       })
       loadServices()
     } catch (error) {
@@ -209,7 +211,7 @@ export default function AdminServicesPage() {
 
       toast({
         title: "Service removed",
-        description: `${service.name} is no longer listed.`,
+        description: `${localize(service.name)} is no longer listed.`,
       })
       loadServices()
     } catch (error) {
@@ -257,7 +259,7 @@ export default function AdminServicesPage() {
               <Card key={service.id}>
                 <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
                   <div>
-                    <CardTitle>{service.name}</CardTitle>
+                    <CardTitle>{localize(service.name)}</CardTitle>
                     <CardDescription className="mt-1 flex flex-wrap items-center gap-2">
                       <Badge variant="outline">{categoryLabels[service.category]}</Badge>
                       <Badge variant={statusVariants[service.status]}>{statusLabels[service.status]}</Badge>
@@ -278,7 +280,7 @@ export default function AdminServicesPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-sm text-muted-foreground">{service.description}</p>
+                  <p className="text-sm text-muted-foreground">{localize(service.description)}</p>
                   <div className="grid gap-2 text-sm">
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <MapPin className="h-4 w-4" />
