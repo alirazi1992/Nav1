@@ -48,35 +48,35 @@ export default function ClientDashboard() {
     <DashboardLayout sidebarItems={clientNavItems}>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold">خوش آمدید، {user?.name}</h1>
-          <p className="text-muted-foreground">نمای کلی شناورها و فعالیت‌های شما</p>
+          <h1 className="text-3xl font-bold">خوش آمدید، {user?.name} | Welcome aboard</h1>
+          <p className="text-muted-foreground">نمای کلی شناورها و فعالیت‌های شما | Overview of your fleet and operations</p>
         </div>
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            title="شناورهای من"
+            title="شناورهای من | My vessels"
             value={loading ? "..." : vessels.length}
             icon={<Ship className="h-4 w-4" />}
-            description="تعداد کل شناورها"
+            description="تعداد کل شناورها | Total registered"
           />
           <StatCard
-            title="شناورهای فعال"
+            title="شناورهای فعال | Active vessels"
             value={loading ? "..." : activeVessels}
             icon={<Activity className="h-4 w-4" />}
-            description="در حال فعالیت"
+            description="در حال فعالیت | Currently operating"
           />
           <StatCard
-            title="هشدارها"
+            title="هشدارها | Alerts"
             value={loading ? "..." : alerts.length}
             icon={<AlertTriangle className="h-4 w-4" />}
-            description="هشدارهای خوانده نشده"
+            description="هشدارهای خوانده نشده | Unread notifications"
           />
           <StatCard
-            title="اخبار جدید"
+            title="اخبار جدید | Latest news"
             value={loading ? "..." : news.length}
             icon={<Bell className="h-4 w-4" />}
-            description="اطلاعیه‌های جدید"
+            description="اطلاعیه‌های جدید | Fresh announcements"
           />
         </div>
 
@@ -85,13 +85,13 @@ export default function ClientDashboard() {
           {/* My Vessels */}
           <Card>
             <CardHeader>
-              <CardTitle>شناورهای من</CardTitle>
+              <CardTitle>شناورهای من | My vessels</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">در حال بارگذاری...</p>
+                <p className="text-muted-foreground">در حال بارگذاری... | Loading...</p>
               ) : vessels.length === 0 ? (
-                <p className="text-muted-foreground">شناوری ثبت نشده است</p>
+                <p className="text-muted-foreground">شناوری ثبت نشده است | No vessels yet</p>
               ) : (
                 <div className="space-y-4">
                   {vessels.map((vessel) => (
@@ -106,7 +106,7 @@ export default function ClientDashboard() {
                         <div>
                           <p className="font-medium">{vessel.name}</p>
                           <p className="text-sm text-muted-foreground">
-                            {vessel.speed} گره • {vessel.heading}°
+                            {vessel.speed} گره | knots • {vessel.heading}°
                           </p>
                         </div>
                       </div>
@@ -119,7 +119,11 @@ export default function ClientDashboard() {
                               : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
-                        {vessel.status === "active" ? "فعال" : vessel.status === "pending" ? "در انتظار" : "غیرفعال"}
+                        {vessel.status === "active"
+                          ? "فعال | Active"
+                          : vessel.status === "pending"
+                            ? "در انتظار | Pending"
+                            : "غیرفعال | Inactive"}
                       </div>
                     </div>
                   ))}
@@ -131,13 +135,13 @@ export default function ClientDashboard() {
           {/* Recent News */}
           <Card>
             <CardHeader>
-              <CardTitle>اخبار و اطلاعیه‌ها</CardTitle>
+              <CardTitle>اخبار و اطلاعیه‌ها | News & bulletins</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">در حال بارگذاری...</p>
+                <p className="text-muted-foreground">در حال بارگذاری... | Loading...</p>
               ) : news.length === 0 ? (
-                <p className="text-muted-foreground">خبری وجود ندارد</p>
+                <p className="text-muted-foreground">خبری وجود ندارد | No news available</p>
               ) : (
                 <div className="space-y-4">
                   {news.map((item) => (
@@ -172,7 +176,7 @@ export default function ClientDashboard() {
         {alerts.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>هشدارهای فعال</CardTitle>
+              <CardTitle>هشدارهای فعال | Active alerts</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">

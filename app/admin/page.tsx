@@ -41,34 +41,34 @@ export default function AdminDashboard() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">{t("dashboard.welcome")}</h1>
-          <p className="text-muted-foreground">نمای کلی سامانه نظارت دریایی</p>
+          <p className="text-muted-foreground">نمای کلی سامانه نظارت دریایی | Overview of the maritime monitoring platform</p>
         </div>
 
         {/* KPI Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <StatCard
-            title="کل شناورها"
+            title="کل شناورها | Total vessels"
             value={loading ? "..." : vessels.length}
             icon={<Ship className="h-4 w-4" />}
-            description="تعداد کل شناورهای ثبت شده"
+            description="تعداد کل شناورهای ثبت شده | Total registered vessels"
           />
           <StatCard
-            title="شناورهای فعال"
+            title="شناورهای فعال | Active vessels"
             value={loading ? "..." : activeVessels}
             icon={<Activity className="h-4 w-4" />}
-            description="شناورهای در حال فعالیت"
+            description="شناورهای در حال فعالیت | Currently operating"
           />
           <StatCard
-            title="در انتظار تأیید"
+            title="در انتظار تأیید | Pending approval"
             value={loading ? "..." : pendingVessels}
             icon={<Users className="h-4 w-4" />}
-            description="شناورهای نیازمند بررسی"
+            description="شناورهای نیازمند بررسی | Awaiting review"
           />
           <StatCard
-            title="هشدارهای فعال"
+            title="هشدارهای فعال | Active alerts"
             value={loading ? "..." : alerts.length}
             icon={<AlertTriangle className="h-4 w-4" />}
-            description="هشدارهای خوانده نشده"
+            description="هشدارهای خوانده نشده | Unacknowledged alerts"
           />
         </div>
 
@@ -76,13 +76,13 @@ export default function AdminDashboard() {
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>آخرین شناورها</CardTitle>
+              <CardTitle>آخرین شناورها | Latest vessels</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">در حال بارگذاری...</p>
+                <p className="text-muted-foreground">در حال بارگذاری... | Loading...</p>
               ) : vessels.length === 0 ? (
-                <p className="text-muted-foreground">شناوری ثبت نشده است</p>
+                <p className="text-muted-foreground">شناوری ثبت نشده است | No vessels recorded</p>
               ) : (
                 <div className="space-y-4">
                   {vessels.slice(0, 5).map((vessel) => (
@@ -103,7 +103,11 @@ export default function AdminDashboard() {
                               : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200"
                         }`}
                       >
-                        {vessel.status === "active" ? "فعال" : vessel.status === "pending" ? "در انتظار" : "غیرفعال"}
+                        {vessel.status === "active"
+                          ? "فعال | Active"
+                          : vessel.status === "pending"
+                            ? "در انتظار | Pending"
+                            : "غیرفعال | Inactive"}
                       </div>
                     </div>
                   ))}
@@ -114,13 +118,13 @@ export default function AdminDashboard() {
 
           <Card>
             <CardHeader>
-              <CardTitle>هشدارهای اخیر</CardTitle>
+              <CardTitle>هشدارهای اخیر | Recent alerts</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
-                <p className="text-muted-foreground">در حال بارگذاری...</p>
+                <p className="text-muted-foreground">در حال بارگذاری... | Loading...</p>
               ) : alerts.length === 0 ? (
-                <p className="text-muted-foreground">هشداری وجود ندارد</p>
+                <p className="text-muted-foreground">هشداری وجود ندارد | No alerts available</p>
               ) : (
                 <div className="space-y-4">
                   {alerts.slice(0, 5).map((alert) => (

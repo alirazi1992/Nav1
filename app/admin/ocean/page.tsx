@@ -96,41 +96,39 @@ export default function AdminOceanPage() {
       <div className="space-y-6">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-bold">آب وهوا &amp; Sea State</h1>
+            <h1 className="text-3xl font-bold">آب‌وهوا و وضعیت دریا | Weather &amp; Sea State</h1>
             <p className="text-muted-foreground">
-              Monitor real-time meteorological and oceanographic conditions for
-              the maritime control room.
+              رصد لحظه‌ای شرایط هواشناسی و اقیانوسی برای اتاق کنترل دریایی | Monitor real-time meteorological and oceanographic conditions for the maritime control room.
             </p>
           </div>
           <Button variant="outline" onClick={loadReadings} disabled={loading}>
             <RefreshCcw className="ml-2 h-4 w-4" />
-            Refresh data
+            به‌روزرسانی داده‌ها | Refresh data
           </Button>
         </div>
 
         {loading ? (
           <div className="py-12 text-center text-muted-foreground">
-            Loading ocean observations…
+            در حال بارگذاری مشاهدات دریایی... | Loading ocean observations…
           </div>
         ) : readings.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center text-muted-foreground">
-              No observations available yet. Connect a sensor feed to begin
-              collecting data.
+              هنوز داده‌ای ثبت نشده است. برای شروع جمع‌آوری اطلاعات، خوراک حسگر را متصل کنید. | No observations available yet. Connect a sensor feed to begin collecting data.
             </CardContent>
           </Card>
         ) : (
           <Tabs defaultValue="overview">
             <TabsList className="grid w-full max-w-md grid-cols-2">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="history">History</TabsTrigger>
+              <TabsTrigger value="overview">نمای کلی | Overview</TabsTrigger>
+              <TabsTrigger value="history">تاریخچه | History</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-6 space-y-6">
               {latest && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Latest observation</CardTitle>
+                    <CardTitle>آخرین مشاهده | Latest observation</CardTitle>
                     <CardDescription>
                       {new Date(latest.timestamp).toLocaleString("fa-IR")} ·{" "}
                       {latest.position.lat.toFixed(3)} /{" "}
@@ -140,31 +138,31 @@ export default function AdminOceanPage() {
                   <CardContent>
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                       <MetricCard
-                        title="Wave height"
+                        title="ارتفاع موج | Wave height"
                         value={`${latest.wave.height.toFixed(1)} m`}
-                        helper={`Period ${
+                        helper={`دوره ${latest.wave.period?.toFixed(0) ?? "—"} ثانیه | Period ${
                           latest.wave.period?.toFixed(0) ?? "—"
                         } s`}
                         icon={<Waves className="h-5 w-5 text-chart-1" />}
                       />
                       <MetricCard
-                        title="Wind"
+                        title="باد | Wind"
                         value={`${latest.wind.speed.toFixed(1)} kt`}
-                        helper={`Direction ${latest.wind.direction.toFixed(
+                        helper={`جهت ${latest.wind.direction.toFixed(0)}° | Direction ${latest.wind.direction.toFixed(
                           0
                         )}°`}
                         icon={<Wind className="h-5 w-5 text-chart-2" />}
                       />
                       <MetricCard
-                        title="Sea temperature"
+                        title="دمای آب | Sea temperature"
                         value={`${latest.temperature.sea.toFixed(1)}°C`}
-                        helper={`Air ${latest.temperature.air.toFixed(1)}°C`}
+                        helper={`دمای هوا ${latest.temperature.air.toFixed(1)}°C | Air ${latest.temperature.air.toFixed(1)}°C`}
                         icon={<Thermometer className="h-5 w-5 text-chart-3" />}
                       />
                       <MetricCard
-                        title="Current"
+                        title="جریان دریایی | Current"
                         value={`${latest.current.speed.toFixed(1)} kt`}
-                        helper={`Direction ${latest.current.direction.toFixed(
+                        helper={`جهت ${latest.current.direction.toFixed(0)}° | Direction ${latest.current.direction.toFixed(
                           0
                         )}°`}
                         icon={<Droplet className="h-5 w-5 text-chart-4" />}
@@ -178,7 +176,7 @@ export default function AdminOceanPage() {
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average wave height
+                      میانگین ارتفاع موج | Average wave height
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -186,14 +184,14 @@ export default function AdminOceanPage() {
                       {aggregates.averageWave.toFixed(1)} m
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Calculated from the latest observations
+                      محاسبه‌شده بر اساس آخرین مشاهدات | Calculated from the latest observations
                     </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average wind speed
+                      میانگین سرعت باد | Average wind speed
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -201,14 +199,14 @@ export default function AdminOceanPage() {
                       {aggregates.averageWind.toFixed(1)} kt
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Reflects surface wind across the region
+                      بازتاب‌دهنده باد سطحی در سراسر منطقه | Reflects surface wind across the region
                     </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average sea temperature
+                      میانگین دمای آب | Average sea temperature
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -216,14 +214,14 @@ export default function AdminOceanPage() {
                       {aggregates.averageSeaTemp.toFixed(1)}°C
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Near-surface water temperature
+                      دمای آب لایه سطحی | Near-surface water temperature
                     </p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Average air temperature
+                      میانگین دمای هوا | Average air temperature
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -231,7 +229,7 @@ export default function AdminOceanPage() {
                       {aggregates.averageAirTemp.toFixed(1)}°C
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      Ambient temperature at the observation sites
+                      دمای محیطی در محل‌های مشاهده | Ambient temperature at the observation sites
                     </p>
                   </CardContent>
                 </Card>
@@ -241,21 +239,21 @@ export default function AdminOceanPage() {
             <TabsContent value="history" className="mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Observation log</CardTitle>
+                  <CardTitle>گزارش مشاهدات | Observation log</CardTitle>
                   <CardDescription>
-                    15 most recent meteorological and oceanographic records
+                    ۱۵ مشاهده اخیر هواشناسی و اقیانوسی | 15 most recent meteorological and oceanographic records
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Timestamp</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Wave height</TableHead>
-                        <TableHead>Wind speed</TableHead>
-                        <TableHead>Sea temperature</TableHead>
-                        <TableHead>Beaufort</TableHead>
+                        <TableHead>زمان ثبت | Timestamp</TableHead>
+                        <TableHead>موقعیت | Location</TableHead>
+                        <TableHead>ارتفاع موج | Wave height</TableHead>
+                        <TableHead>سرعت باد | Wind speed</TableHead>
+                        <TableHead>دمای آب | Sea temperature</TableHead>
+                        <TableHead>بوفورت | Beaufort</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>

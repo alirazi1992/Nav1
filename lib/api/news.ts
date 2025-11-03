@@ -6,17 +6,18 @@ const STORAGE_KEY = "maritime_news"
 const seedNews: News[] = [
   {
     id: "n1",
-    title: "هشدار طوفان در خلیج فارس",
+    title: "هشدار طوفان در خلیج فارس | Gulf storm warning",
     content:
-      "پیش‌بینی می‌شود طوفان شدیدی در ۴۸ ساعت آینده خلیج فارس را تحت تأثیر قرار دهد. به کلیه شناورها توصیه می‌شود از تردد در این منطقه خودداری نمایند.",
+      "پیش‌بینی می‌شود طوفان شدیدی در ۴۸ ساعت آینده خلیج فارس را تحت تأثیر قرار دهد. به کلیه شناورها توصیه می‌شود از تردد در این منطقه خودداری نمایند. | A severe storm is forecast to impact the Persian Gulf within 48 hours. All vessels are advised to avoid transit in the area.",
     category: "warning",
     publishedAt: new Date().toISOString(),
     isRead: false,
   },
   {
     id: "n2",
-    title: "بروزرسانی قوانین بندر",
-    content: "قوانین جدید ورود و خروج به بندر عباس از تاریخ ۱۵ فروردین لازم‌الاجرا خواهد شد.",
+    title: "بروزرسانی قوانین بندر | Port regulation update",
+    content:
+      "قوانین جدید ورود و خروج به بندر عباس از تاریخ ۱۵ فروردین لازم‌الاجرا خواهد شد. | Revised entry and departure rules for Bandar Abbas take effect on 3 April.",
     category: "announcement",
     regionId: "r1",
     publishedAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),

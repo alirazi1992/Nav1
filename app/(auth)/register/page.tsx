@@ -34,8 +34,8 @@ export default function RegisterPage() {
 
     if (result.success) {
       toast({
-        title: "ثبت‌نام موفق",
-        description: "حساب کاربری شما ایجاد شد",
+        title: "ثبت‌نام موفق | Registration successful",
+        description: "حساب کاربری شما ایجاد شد | Your account has been created",
       })
 
       if (role === "admin") {
@@ -45,8 +45,8 @@ export default function RegisterPage() {
       }
     } else {
       toast({
-        title: "خطا",
-        description: result.error || "ثبت‌نام ناموفق بود",
+        title: "خطا | Error",
+        description: result.error || "ثبت‌نام ناموفق بود | Registration failed",
         variant: "destructive",
       })
     }
@@ -58,17 +58,17 @@ export default function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary/10 via-background to-primary/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">سامانه نظارت دریایی</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">سامانه نظارت دریایی | Maritime Monitoring System</CardTitle>
           <CardDescription className="text-center">{t("auth.signUp")}</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">نام و نام خانوادگی</Label>
+              <Label htmlFor="name">نام و نام خانوادگی | Full name</Label>
               <Input
                 id="name"
                 type="text"
-                placeholder="نام خود را وارد کنید"
+                placeholder="نام خود را وارد کنید | Enter your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -97,14 +97,14 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="role">نقش کاربری</Label>
+              <Label htmlFor="role">نقش کاربری | User role</Label>
               <Select value={role} onValueChange={(value) => setRole(value as UserRole)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="client">کاربر (مالک شناور)</SelectItem>
-                  <SelectItem value="admin">مدیر سیستم</SelectItem>
+                  <SelectItem value="client">کاربر (مالک شناور) | Client (Vessel owner)</SelectItem>
+                  <SelectItem value="admin">مدیر سیستم | System administrator</SelectItem>
                 </SelectContent>
               </Select>
             </div>

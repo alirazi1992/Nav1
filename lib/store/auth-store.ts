@@ -38,12 +38,18 @@ export const useAuthStore = create<AuthState>()(
       login: async (email: string, password: string) => {
         // Mock authentication
         const mockUsers = [
-          { id: "1", email: "admin@maritime.ir", password: "admin123", name: "مدیر سیستم", role: "admin" as UserRole },
+          {
+            id: "1",
+            email: "admin@maritime.ir",
+            password: "admin123",
+            name: "مدیر سیستم | System administrator",
+            role: "admin" as UserRole,
+          },
           {
             id: "2",
             email: "client@maritime.ir",
             password: "client123",
-            name: "کاربر نمونه",
+            name: "کاربر نمونه | Sample client",
             role: "client" as UserRole,
           },
         ]
@@ -67,7 +73,7 @@ export const useAuthStore = create<AuthState>()(
           return { success: true }
         }
 
-        return { success: false, error: "ایمیل یا رمز عبور اشتباه است" }
+        return { success: false, error: "ایمیل یا رمز عبور اشتباه است | Incorrect email or password" }
       },
 
       logout: () => {

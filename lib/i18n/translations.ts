@@ -17,6 +17,7 @@ const en = {
     back: "Back",
     view: "View",
     details: "Details",
+    error: "Error",
   },
   // Auth
   auth: {
@@ -168,6 +169,7 @@ const en = {
     filters: {
       all: "All types",
     },
+    invalidPositionNotice: "{{count}} vessels skipped due to missing coordinates.",
   },
   // Radar widget
   radarWidget: {
@@ -189,7 +191,202 @@ const en = {
   },
 } as const
 
+const fa = {
+  // Common
+  common: {
+    save: "ذخیره | Save",
+    cancel: "انصراف | Cancel",
+    delete: "حذف | Delete",
+    edit: "ویرایش | Edit",
+    add: "افزودن | Add",
+    search: "جستجو | Search",
+    filter: "فیلتر | Filter",
+    reset: "بازنشانی | Reset",
+    apply: "اعمال | Apply",
+    close: "بستن | Close",
+    loading: "در حال بارگذاری... | Loading...",
+    noData: "داده‌ای یافت نشد | No data found",
+    confirm: "تأیید | Confirm",
+    back: "بازگشت | Back",
+    view: "مشاهده | View",
+    details: "جزئیات | Details",
+    error: "خطا | Error",
+  },
+  // Auth
+  auth: {
+    login: "ورود | Login",
+    register: "ثبت‌نام | Register",
+    logout: "خروج | Logout",
+    email: "ایمیل | Email",
+    password: "رمز عبور | Password",
+    confirmPassword: "تأیید رمز عبور | Confirm Password",
+    forgotPassword: "فراموشی رمز عبور | Forgot Password",
+    rememberMe: "مرا به خاطر بسپار | Remember Me",
+    signIn: "ورود به سامانه | Sign In",
+    signUp: "ایجاد حساب | Sign Up",
+    alreadyHaveAccount: "قبلاً ثبت‌نام کرده‌اید؟ | Already have an account?",
+    dontHaveAccount: "حساب کاربری ندارید؟ | Don't have an account?",
+  },
+  // Navigation
+  nav: {
+    dashboard: "داشبورد | Dashboard",
+    users: "کاربران | Users",
+    vessels: "شناورها | Vessels",
+    radar: "رادار و نقشه | Map & Radar",
+    ocean: "آب‌وهوا و دریا | Weather & Ocean",
+    regions: "مناطق و مقررات | Regions & Policies",
+    services: "خدمات دریایی | Service Directory",
+    events: "رویدادها | Events",
+    alerts: "هشدارها | Alerts",
+    settings: "تنظیمات | Settings",
+    myVessels: "شناورهای من | My Vessels",
+    news: "اخبار و اعلان‌ها | News & Announcements",
+    account: "حساب کاربری | Account",
+  },
+  // Dashboard
+  dashboard: {
+    welcome: "خوش آمدید | Welcome",
+    overview: "نمای کلی | Overview",
+    statistics: "آمار | Statistics",
+    recentActivity: "فعالیت‌های اخیر | Recent Activity",
+    kpi: "شاخص‌های کلیدی عملکرد | Key Performance Indicators",
+  },
+  // Vessels
+  vessels: {
+    vessel: "شناور | Vessel",
+    vesselName: "نام شناور | Vessel Name",
+    vesselType: "نوع شناور | Vessel Type",
+    owner: "مالک | Owner",
+    speed: "سرعت | Speed",
+    heading: "سمت | Heading",
+    position: "موقعیت | Position",
+    lastUpdate: "آخرین به‌روزرسانی | Last Update",
+    addVessel: "افزودن شناور | Add Vessel",
+    editVessel: "ویرایش شناور | Edit Vessel",
+    deleteVessel: "حذف شناور | Delete Vessel",
+    vesselDetails: "جزئیات شناور | Vessel Details",
+    notFound: "شناور یافت نشد | Vessel not found",
+    status: {
+      active: "فعال | Active",
+      inactive: "غیرفعال | Inactive",
+      pending: "در انتظار تأیید | Pending Approval",
+      approved: "تأیید شد | Approved",
+      rejected: "رد شد | Rejected",
+    },
+    type: {
+      cargo: "کشتی باری | Cargo Ship",
+      tanker: "نفتکش | Tanker",
+      container: "کشتی کانتینری | Container Ship",
+      bulk: "فله‌بر | Bulk Carrier",
+      passenger: "کشتی مسافری | Passenger Ship",
+      fishing: "قایق صیادی | Fishing Vessel",
+      tug: "یدک‌کش | Tugboat",
+      other: "سایر | Other",
+    },
+    form: {
+      name: "نام شناور | Vessel Name",
+      imo: "شماره IMO | IMO Number",
+      type: "نوع | Type",
+      flag: "پرچم | Flag",
+      yearBuilt: "سال ساخت | Year Built",
+      dwt: "تناژ مرده (DWT) | Deadweight Tonnage (DWT)",
+      speed: "سرعت | Speed",
+      currentLocation: "موقعیت فعلی | Current Location",
+    },
+  },
+  // Weather & Ocean
+  weather: {
+    title: "هوا و وضعیت دریا | Weather & Sea State",
+    course: "مسیر | Course",
+    wind: "باد | Wind",
+    wave: "موج | Wave",
+    swell: "سوییِل | Swell",
+    current: "جریان | Current",
+    airTemp: "دمای هوا | Air Temperature",
+    seaTemp: "دمای آب | Sea Temperature",
+    waveHeight: "ارتفاع موج | Wave Height",
+  },
+  // Compliance
+  compliance: {
+    timeline: "جدول زمانی انطباق | Compliance Timeline",
+    compliant: "مطابق | Compliant",
+    nonCompliant: "نامطابق | Non-Compliant",
+    period: "دوره | Period",
+    instruction: "دستورالعمل | Instruction",
+    constantPower: "توان ثابت | Constant Power",
+  },
+  // Units
+  units: {
+    knot: "گره | knots",
+    kilowatt: "کیلووات | kW",
+    percent: "درصد | %",
+    ton: "تن | tons",
+    grossTon: "تن ناخالص | gross tons",
+    minute: "دقیقه | minutes",
+    degree: "درجه | deg",
+    meter: "متر بر ثانیه | m/s",
+  },
+  // Operational map
+  map: {
+    title: "نقشه عملیاتی | Operational map",
+    loading: "در حال بارگذاری لایه‌های نقشه... | Loading map layers...",
+    layersButton: "لایه‌ها | Layers",
+    layersPanel: "کنترل لایه‌ها | Layer control",
+    layers: {
+      vessels: "شناورها | Vessels",
+      regions: "مناطق | Regions",
+      ports: "بنادر | Ports",
+    },
+    popup: {
+      type: "نوع | Type",
+      speed: "سرعت | Speed",
+      heading: "سمت | Heading",
+      owner: "مالک | Owner",
+      noDescription: "توضیحی ثبت نشده است | No description available.",
+    },
+  },
+  // Radar page
+  radarPage: {
+    title: "نقشه و رادار | Map & Radar",
+    description:
+      "نمای زنده از وضعیت شناورها و مناطق تحت نظارت | Live situational awareness for vessels and monitored regions in your area.",
+    typeFilterLabel: "نوع شناور | Vessel type",
+    searchLabel: "جستجو | Search",
+    searchPlaceholder:
+      "نام، MMSI، IMO، پرچم یا مالک را وارد کنید... | Enter name, MMSI, IMO, flag, or owner...",
+    countsLabel: "{{filtered}} / {{total}} شناور | {{filtered}} / {{total}} vessels",
+    loading: "در حال بارگذاری داده‌های رادار... | Loading radar data...",
+    error: "بارگذاری داده‌ها ممکن نشد. لطفاً دوباره تلاش کنید. | We couldn't load the radar data. Please try again shortly.",
+    tabs: {
+      map: "نقشه عملیاتی | Operational map",
+      radar: "رادار پیشرفته | Advanced radar",
+    },
+    filters: {
+      all: "همه انواع | All types",
+    },
+    invalidPositionNotice: "{{count}} شناور به دلیل نداشتن مختصات معتبر نمایش داده نشدند. | {{count}} vessels lacked valid coordinates and were hidden.",
+  },
+  // Radar widget
+  radarWidget: {
+    title: "نمای تاکتیکی رادار | Tactical radar view",
+    controls: "کنترل‌ها | Controls",
+    gain: "تقویت سیگنال: {{value}} | Signal gain: {{value}}",
+    threshold: "آستانه کشف: {{value}} | Detection threshold: {{value}}",
+    pulse: "طول پالس: {{value}} | Pulse length: {{value}}",
+    stc: "استانداردسازی برد کوتاه | Short-range STC",
+    cfar: "CFAR خودکار | Auto CFAR",
+    boost: "تقویت گسترده | Wide boost",
+    selectedTitle: "هدف انتخاب‌شده | Selected target",
+    vesselName: "نام شناور | Vessel name",
+    vesselType: "نوع شناور | Vessel type",
+    speed: "سرعت | Speed",
+    heading: "سمت | Heading",
+    position: "موقعیت | Position",
+    clear: "حذف انتخاب | Clear selection",
+  },
+} as const
+
 export const translations = {
   en,
-  fa: en,
+  fa,
 } as const

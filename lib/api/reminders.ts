@@ -7,8 +7,9 @@ const seedReminders: VesselReminder[] = [
   {
     id: "r1",
     vesselId: "v1",
-    title: "تمدید گواهی مدیریت ایمنی",
-    description: "گواهی به‌زودی منقضی می‌شود. مدارک تمدید را به سازمان ایمنی دریایی ارسال کنید.",
+    title: "تمدید گواهی مدیریت ایمنی | ISM certificate renewal",
+    description:
+      "گواهی به‌زودی منقضی می‌شود. مدارک تمدید را به سازمان ایمنی دریایی ارسال کنید. | Certificate expiry approaching—submit renewal documents to the maritime safety authority.",
     category: "license",
     status: "open",
     priority: "high",
@@ -20,8 +21,9 @@ const seedReminders: VesselReminder[] = [
   {
     id: "r2",
     vesselId: "v1",
-    title: "برگزاری مانور تجهیزات نجات",
-    description: "مانور کامل خدمه را پیش از ورود به بندر بعدی اجرا و صورتجلسه کنید.",
+    title: "برگزاری مانور تجهیزات نجات | Conduct lifesaving drill",
+    description:
+      "مانور کامل خدمه را پیش از ورود به بندر بعدی اجرا و صورتجلسه کنید. | Complete crew drill before next port and file the report.",
     category: "safety",
     status: "in_progress",
     priority: "medium",
@@ -32,8 +34,9 @@ const seedReminders: VesselReminder[] = [
   {
     id: "r3",
     vesselId: "v2",
-    title: "هماهنگی برای بازرسی پوشش بدنه",
-    description: "با تیم داک خشک برای ارزیابی وضعیت پوشش بدنه هماهنگ شوید.",
+    title: "هماهنگی برای بازرسی پوشش بدنه | Coordinate hull coating inspection",
+    description:
+      "با تیم داک خشک برای ارزیابی وضعیت پوشش بدنه هماهنگ شوید. | Schedule dry-dock team to assess hull coating condition.",
     category: "maintenance",
     status: "open",
     priority: "medium",
@@ -44,8 +47,9 @@ const seedReminders: VesselReminder[] = [
   {
     id: "r4",
     vesselId: "v3",
-    title: "ارسال مدارک تمدید ترخیص بندر",
-    description: "مانیفست بار و گزارش‌های بازرسی به‌روزرسانی‌شده را برای تمدید ترخیص ارسال کنید.",
+    title: "ارسال مدارک تمدید ترخیص بندر | Submit port clearance renewal",
+    description:
+      "مانیفست بار و گزارش‌های بازرسی به‌روزرسانی‌شده را برای تمدید ترخیص ارسال کنید. | Forward updated cargo manifest and inspection reports for clearance renewal.",
     category: "document",
     status: "open",
     priority: "high",
@@ -57,8 +61,9 @@ const seedReminders: VesselReminder[] = [
   {
     id: "r5",
     vesselId: "v3",
-    title: "تمدید گواهی‌های پزشکی خدمه",
-    description: "گواهی‌های پزشکی در حال انقضای خدمه را پیش از بازرسی منطقه‌ای تمدید کنید.",
+    title: "تمدید گواهی‌های پزشکی خدمه | Renew crew medical certificates",
+    description:
+      "گواهی‌های پزشکی در حال انقضای خدمه را پیش از بازرسی منطقه‌ای تمدید کنید. | Renew expiring crew medical certificates before the regional inspection.",
     category: "health",
     status: "in_progress",
     priority: "high",

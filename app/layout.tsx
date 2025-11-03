@@ -13,7 +13,7 @@ const vazirmatn = Vazirmatn({
 
 export const metadata: Metadata = {
   title: "سامانه نظارت دریایی | Maritime Monitoring System",
-  description: "سامانه جامع نظارت و مدیریت شناورها",
+  description: "سامانه جامع نظارت و مدیریت شناورها | Comprehensive Maritime Oversight Platform",
   generator: "v0.app",
 }
 

@@ -90,6 +90,25 @@ export default function AdminRadarPage() {
       .join(" ")
   }, [locale])
 
+  const getPosition = useCallback((v: Vessel) => {
+    const candidate =
+      v.position ??
+      ((v as any).position && typeof (v as any).position === "object"
+        ? ((v as any).position as { lat?: unknown; lng?: unknown })
+        : null)
+
+    const lat = candidate?.lat ?? (v as any).lat ?? (v as any).latitude
+    const lng = candidate?.lng ?? (v as any).lng ?? (v as any).longitude
+
+    const isNumber = (value: unknown): value is number => typeof value === "number" && Number.isFinite(value)
+
+    if (!isNumber(lat) || !isNumber(lng)) {
+      return null
+    }
+
+    return { lat, lng }
+  }, [])
+
   const filteredVessels = useMemo(() => {
     const query = search.trim().toLocaleLowerCase(locale === "fa" ? "fa-IR" : "en-US")
     return vessels.filter((v) => {
@@ -100,8 +119,15 @@ export default function AdminRadarPage() {
     })
   }, [vessels, typeFilter, search, locale, searchableText])
 
+  const vesselsWithPosition = useMemo(
+    () => filteredVessels.filter((vessel) => getPosition(vessel) !== null),
+    [filteredVessels, getPosition],
+  )
+
+  const invalidCount = filteredVessels.length - vesselsWithPosition.length
+
   const countsLabel = t("radarPage.countsLabel", {
-    filtered: numberFormatter.format(filteredVessels.length),
+    filtered: numberFormatter.format(vesselsWithPosition.length),
     total: numberFormatter.format(vessels.length),
   })
 
@@ -148,6 +174,14 @@ export default function AdminRadarPage() {
           </div>
         </div>
 
+        {invalidCount > 0 && (
+          <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-3 text-sm text-yellow-800 dark:text-yellow-200">
+            {t("radarPage.invalidPositionNotice", {
+              count: numberFormatter.format(invalidCount),
+            })}
+          </div>
+        )}
+
         {loading ? (
           <div className="py-12 text-center text-muted-foreground">{t("radarPage.loading")}</div>
         ) : hasError ? (
@@ -162,12 +196,12 @@ export default function AdminRadarPage() {
             </TabsList>
 
             <TabsContent value="map" className="mt-4">
-              <VesselMap vessels={filteredVessels as any} regions={regions as any} />
+              <VesselMap vessels={vesselsWithPosition as any} regions={regions as any} />
             </TabsContent>
 
             <TabsContent value="radar" className="mt-4">
               <div className="rounded-2xl border p-3">
-                <RadarWidget vessels={filteredVessels as any} centerLat={27.1865} centerLng={56.2808} range={50} />
+                <RadarWidget vessels={vesselsWithPosition as any} centerLat={27.1865} centerLng={56.2808} range={50} />
               </div>
             </TabsContent>
           </Tabs>

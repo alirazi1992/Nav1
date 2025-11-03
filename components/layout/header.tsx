@@ -36,7 +36,7 @@ export function Header() {
         </Button>
 
         <div className="flex-1">
-          <h1 className="text-lg font-semibold">سامانه نظارت دریایی</h1>
+          <h1 className="text-lg font-semibold">سامانه نظارت دریایی | Maritime Monitoring System</h1>
         </div>
 
         <div className="flex items-center gap-2">
@@ -49,10 +49,10 @@ export function Header() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setLocale("fa")} className={locale === "fa" ? "bg-accent" : ""}>
-                فارسی
+                فارسی | Persian
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setLocale("en")} className={locale === "en" ? "bg-accent" : ""}>
-                English
+                English | انگلیسی
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -15,7 +15,8 @@ import {
 import { useUIStore } from "@/lib/store/ui-store";
 
 interface SidebarItem {
-  title: string;
+  titleFa: string;
+  titleEn: string;
   href: string;
   icon: React.ReactNode;
 }
@@ -43,7 +44,7 @@ export function Sidebar({
       {...props}
     >
       <ScrollArea className="flex-1 px-3 py-4">
-        <nav className="flex flex-col gap-1" aria-label="Primary navigation">
+        <nav className="flex flex-col gap-2" aria-label="Primary navigation">
           {items.map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(item.href + "/");
@@ -53,17 +54,32 @@ export function Sidebar({
                 asChild
                 variant={isActive ? "secondary" : "ghost"}
                 className={cn(
-                  "w-full justify-start gap-3",
-                  isActive && "bg-sidebar-accent text-sidebar-accent-foreground"
+                  "group w-full justify-between gap-3 px-3 py-2 text-right transition",
+                  "flex-row-reverse",
+                  isActive
+                    ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
+                    : "hover:bg-sidebar-accent/40"
                 )}
               >
                 <Link
                   href={item.href}
                   onClick={onNavigate}
-                  className="flex items-center gap-3"
+                  className="flex w-full flex-row-reverse items-center gap-3"
                 >
-                  {item.icon}
-                  <span>{item.title}</span>
+                  <span
+                    className={cn(
+                      "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border transition-colors",
+                      isActive
+                        ? "border-transparent bg-sidebar text-sidebar-foreground"
+                        : "border-border bg-muted text-muted-foreground group-hover:bg-accent group-hover:text-accent-foreground"
+                    )}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="flex min-w-0 flex-1 flex-col items-end leading-tight">
+                    <span className="truncate text-sm font-semibold">{item.titleFa}</span>
+                    <span className="truncate text-xs text-muted-foreground">{item.titleEn}</span>
+                  </span>
                 </Link>
               </Button>
             );
