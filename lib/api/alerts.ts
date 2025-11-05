@@ -31,7 +31,35 @@ const seedRules: AlertRule[] = [
   },
 ]
 
-const seedAlerts: Alert[] = []
+const seedAlerts: Alert[] = [
+  {
+    id: "a1",
+    ruleId: "ar1",
+    vesselId: "v1",
+    level: "warning",
+    message: "ارتفاع موج در مسیر شناور تاجر هرمز از حد مجاز عبور کرده است",
+    timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+    isRead: false,
+  },
+  {
+    id: "a2",
+    ruleId: "ar2",
+    vesselId: "v2",
+    level: "danger",
+    message: "سرعت باد شدید در محدوده لنگرگاه صادراتی گزارش شده است",
+    timestamp: new Date(Date.now() - 45 * 60 * 1000).toISOString(),
+    isRead: false,
+  },
+  {
+    id: "a3",
+    ruleId: "ar1",
+    vesselId: "v3",
+    level: "info",
+    message: "اطلاع: موج متوسط در مسیر ورودی بندر خرمشهر ثبت شد",
+    timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+    isRead: true,
+  },
+]
 
 export const alertRulesApi = {
   getAll: async (): Promise<AlertRule[]> => {

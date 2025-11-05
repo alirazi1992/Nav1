@@ -22,6 +22,22 @@ const seedNews: News[] = [
     publishedAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
     isRead: false,
   },
+  {
+    id: "n3",
+    title: "به‌روزرسانی سامانه ردیابی",
+    content: "نسخه جدید سامانه ردیابی شناورها با دقت بیشتر در موقعیت‌یابی فعال شد.",
+    category: "update",
+    publishedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    isRead: true,
+  },
+  {
+    id: "n4",
+    title: "دعوت به رزمایش ایمنی دریایی",
+    content: "تمامی شناورهای فعال دعوت می‌شوند در رزمایش ایمنی هفته آینده شرکت کنند.",
+    category: "event",
+    publishedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    isRead: false,
+  },
 ]
 
 export const newsApi = {

@@ -25,8 +25,8 @@ export default function ClientNewsPage() {
     } catch (error) {
       console.error("Error loading news:", error)
       toast({
-        title: "Ø®Ø·Ø§",
-        description: "Ø¨Ø§Ø±Ú¯Ø°Ø§Ø±ÛŒ Ø§Ø®Ø¨Ø§Ø± Ø¨Ø§ Ø®Ø·Ø§ Ù…ÙˆØ§Ø¬Ù‡ Ø´Ø¯",
+        title: "خطا در بارگذاری",
+        description: "دریافت اخبار با مشکل مواجه شد. لطفاً دوباره تلاش کنید.",
         variant: "destructive",
       })
     } finally {
@@ -44,8 +44,8 @@ export default function ClientNewsPage() {
       loadNews()
     } catch (error) {
       toast({
-        title: "Ø®Ø·Ø§",
-        description: "Ø¹Ù…Ù„ÛŒØ§Øª Ø¨Ø§ Ø®Ø·Ø§ Ù…ÙˆØ§Ø¬Ù‡ Ø´Ø¯",
+        title: "عملیات ناموفق",
+        description: "به‌روزرسانی وضعیت خبر انجام نشد. لطفاً دوباره تلاش کنید.",
         variant: "destructive",
       })
     }
@@ -84,30 +84,30 @@ export default function ClientNewsPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Ø§Ø®Ø¨Ø§Ø± Ùˆ Ø§Ø·Ù„Ø§Ø¹ÛŒÙ‡â€ŒÙ‡Ø§</h1>
-            <p className="text-muted-foreground">Ø¢Ø®Ø±ÛŒÙ† Ø§Ø®Ø¨Ø§Ø± Ùˆ Ø§Ø·Ù„Ø§Ø¹ÛŒÙ‡â€ŒÙ‡Ø§ÛŒ Ø¯Ø±ÛŒØ§ÛŒÛŒ</p>
+            <h1 className="text-3xl font-bold">اخبار و اطلاعیه‌ها</h1>
+            <p className="text-muted-foreground">آخرین خبرها و هشدارهای عملیاتی برای ناوگان شما</p>
           </div>
           <div className="flex gap-2">
             <Button variant={filter === "all" ? "default" : "outline"} onClick={() => setFilter("all")}>
-              Ù‡Ù…Ù‡
+              همه
             </Button>
             <Button variant={filter === "unread" ? "default" : "outline"} onClick={() => setFilter("unread")}>
-              Ø®ÙˆØ§Ù†Ø¯Ù‡ Ù†Ø´Ø¯Ù‡
+              خوانده‌نشده
             </Button>
           </div>
         </div>
 
         {loading ? (
-          <div className="text-center py-12">Ø¯Ø± Ø­Ø§Ù„ Ø¨Ø§Ø±Ú¯Ø°Ø§Ø±ÛŒ...</div>
+          <div className="py-12 text-center">در حال بارگذاری...</div>
         ) : filteredNews.length === 0 ? (
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-12">
               <CheckCircle className="h-16 w-16 text-muted-foreground" />
               <h3 className="mt-4 text-lg font-semibold">
-                {filter === "unread" ? "Ù‡Ù…Ù‡ Ø§Ø®Ø¨Ø§Ø± Ø±Ø§ Ø®ÙˆØ§Ù†Ø¯Ù‡â€ŒØ§ÛŒØ¯" : "Ø®Ø¨Ø±ÛŒ ÙˆØ¬ÙˆØ¯ Ù†Ø¯Ø§Ø±Ø¯"}
+                {filter === "unread" ? "همه اخبار را خوانده‌اید" : "خبری ثبت نشده است"}
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                {filter === "unread" ? "Ø§Ø®Ø¨Ø§Ø± Ø¬Ø¯ÛŒØ¯ Ø¨Ù‡ Ù…Ø­Ø¶ Ø§Ù†ØªØ´Ø§Ø± Ù†Ù…Ø§ÛŒØ´ Ø¯Ø§Ø¯Ù‡ Ù…ÛŒâ€ŒØ´ÙˆÙ†Ø¯" : ""}
+                {filter === "unread" ? "اطلاعیه‌های جدید به محض انتشار نمایش داده خواهند شد." : ""}
               </p>
             </CardContent>
           </Card>
@@ -126,7 +126,7 @@ export default function ClientNewsPage() {
                           <CardTitle>{item.title}</CardTitle>
                           {!item.isRead && (
                             <Badge variant="default" className="text-xs">
-                              Ø¬Ø¯ÛŒØ¯
+                              جدید
                             </Badge>
                           )}
                         </div>
@@ -135,7 +135,7 @@ export default function ClientNewsPage() {
                     </div>
                     {!item.isRead && (
                       <Button size="sm" variant="outline" onClick={() => handleMarkAsRead(item.id)}>
-                        Ø¹Ù„Ø§Ù…Øª Ø¨Ù‡ Ø¹Ù†ÙˆØ§Ù† Ø®ÙˆØ§Ù†Ø¯Ù‡ Ø´Ø¯Ù‡
+                        علامت به عنوان خوانده شده
                       </Button>
                     )}
                   </div>
